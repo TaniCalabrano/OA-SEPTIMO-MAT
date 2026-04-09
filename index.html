@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matemática 7° Básico — Bases Curriculares 2015</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a14;
+    --surface: #11111f;
+    --surface2: #1a1a2e;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.18);
+    --text: #f0eef8;
+    --muted: #8b88a8;
+    --dim: #3d3a55;
+
+    --num: #00e5b0;
+    --alg: #a78bfa;
+    --geo: #fb923c;
+    --est: #facc15;
+
+    --num-bg: rgba(0,229,176,0.08);
+    --alg-bg: rgba(167,139,250,0.08);
+    --geo-bg: rgba(251,146,60,0.08);
+    --est-bg: rgba(250,204,21,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── CANVAS FONDO ── */
+  #canvas-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.18;
+  }
+
+  /* ── GRADIENTE RADIAL SUAVE ── */
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0,229,176,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(167,139,250,0.07) 0%, transparent 70%);
+  }
+
+  /* ── CONTENIDO PRINCIPAL ── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  /* ── HEADER ── */
+  .hero {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--num);
+    border: 1px solid rgba(0,229,176,0.3);
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 1.4rem;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.8rem;
+    background: linear-gradient(135deg, #f0eef8 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    font-size: 16px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--num);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 0 24px rgba(0,229,176,0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 36px rgba(0,229,176,0.5);
+    background: #00ffbf;
+  }
+  .btn-primary svg { width: 14px; height: 14px; }
+
+  /* ── HABILIDADES ── */
+  .habilidades {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 3.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hab-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-align: center;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .hab-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+
+  .hab-icon { font-size: 22px; margin-bottom: 6px; }
+  .hab-name { font-size: 12px; font-weight: 500; color: var(--text); }
+  .hab-desc { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+  /* ── SECCIÓN EJE ── */
+  .eje {
+    margin-bottom: 2.8rem;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .eje-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.2rem;
+  }
+
+  .eje-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .eje-title-wrap h2 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .eje-title-wrap span {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── OA CARD ── */
+  .oa-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+  }
+  .oa-card:hover { border-color: var(--border-hover); }
+  .oa-card.open { border-color: var(--border-hover); }
+
+  .oa-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text);
+    transition: background 0.2s;
+  }
+  .oa-trigger:hover { background: rgba(255,255,255,0.03); }
+
+  .oa-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    letter-spacing: 0.05em;
+  }
+
+  .oa-text { font-size: 14px; line-height: 1.6; flex: 1; font-weight: 400; }
+
+  .oa-chevron {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--dim);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1), color 0.2s;
+  }
+  .oa-card.open .oa-chevron { transform: rotate(180deg); color: var(--muted); }
+
+  .oa-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(.4,0,.2,1);
+  }
+  .oa-body-inner {
+    padding: 0 18px 18px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  .prev-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .prev-list { list-style: none; }
+  .prev-list li {
+    font-size: 13px;
+    color: #ccc8e8;
+    padding: 7px 0 7px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .prev-list li:last-child { border-bottom: none; }
+  .prev-list li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 14px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--dim);
+  }
+
+  /* ── COLORES POR EJE ── */
+  .num .oa-badge { background: var(--num-bg); color: var(--num); }
+  .num .eje-icon { background: var(--num-bg); }
+  .num .oa-card.open { border-color: rgba(0,229,176,0.25); }
+
+  .alg .oa-badge { background: var(--alg-bg); color: var(--alg); }
+  .alg .eje-icon { background: var(--alg-bg); }
+  .alg .oa-card.open { border-color: rgba(167,139,250,0.25); }
+
+  .geo .oa-badge { background: var(--geo-bg); color: var(--geo); }
+  .geo .eje-icon { background: var(--geo-bg); }
+  .geo .oa-card.open { border-color: rgba(251,146,60,0.25); }
+
+  .est .oa-badge { background: var(--est-bg); color: var(--est); }
+  .est .eje-icon { background: var(--est-bg); }
+  .est .oa-card.open { border-color: rgba(250,204,21,0.25); }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 12px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.05s ease both;
+  }
+
+  .btn-toggle {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-toggle:hover { border-color: var(--border-hover); color: var(--text); }
+
+  .oa-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .oa-count span { color: var(--text); font-weight: 700; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--dim);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── ANIMACIONES ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .eje:nth-child(1) { animation-delay: 0.1s; }
+  .eje:nth-child(2) { animation-delay: 0.2s; }
+  .eje:nth-child(3) { animation-delay: 0.3s; }
+  .eje:nth-child(4) { animation-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .wrapper { padding: 2rem 1rem 4rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .habilidades { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="canvas-bg"></canvas>
+<div class="bg-glow"></div>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-badge">Bases Curriculares 2015</div>
+    <h1>Matemática<br>7° Básico</h1>
+    <p>Objetivos de aprendizaje y conocimientos previos requeridos para cada uno de los 19 OA del currículum chileno.</p>
+    <a href="https://www.curriculumnacional.cl/curriculum/7o-basico-2o-medio/matematica/7-basico" target="_blank" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Ver en Curriculum Nacional
+    </a>
+  </header>
+
+  <!-- HABILIDADES -->
+  <div class="habilidades">
+    <div class="hab-card">
+      <div class="hab-icon">🔍</div>
+      <div class="hab-name">Resolver problemas</div>
+      <div class="hab-desc">Estrategias, ensayo-error, verificación</div>
+    </div>
+    <div class="hab-card">
+      <div class="hab-icon">💬</div>
+      <div class="hab-name">Argumentar</div>
+      <div class="hab-desc">Fundamentar, comunicar, debatir</div>
+    </div>
+    <div class="hab-card">
+      <div class="hab-icon">📐</div>
+      <div class="hab-name">Modelar</div>
+      <div class="hab-desc">Usar y ajustar modelos matemáticos</div>
+    </div>
+    <div class="hab-card">
+      <div class="hab-icon">🔢</div>
+      <div class="hab-name">Representar</div>
+      <div class="hab-desc">Tablas, gráficos, símbolos, analogías</div>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="oa-count"><span id="open-count">0</span> / 19 objetivos abiertos</div>
+    <button class="btn-toggle" id="btn-all" onclick="toggleAll()">Expandir todos</button>
+  </div>
+
+  <!-- EJE: NÚMEROS -->
+  <section class="eje num">
+    <div class="eje-header">
+      <div class="eje-icon">∑</div>
+      <div class="eje-title-wrap">
+        <h2 style="color:var(--num)">Números</h2>
+        <span>OA 1 – 5 &nbsp;·&nbsp; 5 objetivos</span>
+      </div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 1</span>
+        <span class="oa-text">Adición y sustracción de números enteros: recta numérica, representaciones y problemas cotidianos.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Números naturales y su orden en la recta numérica</li>
+          <li>Concepto de número negativo en contextos cotidianos (deudas, temperaturas)</li>
+          <li>Adición y sustracción de naturales con reagrupación</li>
+          <li>Valor absoluto como distancia al origen</li>
+          <li>Representación pictórica de cantidades opuestas (ganancia/pérdida)</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 2</span>
+        <span class="oa-text">Multiplicación y división de fracciones positivas: representaciones concretas, pictóricas y simbólicas.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Concepto de fracción como parte de un todo y como cociente</li>
+          <li>Fracciones equivalentes y simplificación</li>
+          <li>Adición y sustracción de fracciones con distinto denominador</li>
+          <li>Tablas de multiplicación y algoritmo de la división</li>
+          <li>Relación entre fracciones y números decimales</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 3</span>
+        <span class="oa-text">Problemas con multiplicación y división de fracciones y decimales positivos (manual y/o software).</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Algoritmos de multiplicación y división de decimales</li>
+          <li>Conversión entre fracciones y decimales</li>
+          <li>Lectura e interpretación de enunciados de problemas</li>
+          <li>Estimación y verificación de resultados</li>
+          <li>Uso básico de calculadora o software educativo</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 4</span>
+        <span class="oa-text">Concepto de porcentaje: representación pictórica, cálculo y aplicaciones sencillas.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Fracciones con denominador 100</li>
+          <li>Relación fracción–decimal–porcentaje (½ = 0,5 = 50%)</li>
+          <li>Multiplicación de decimales por números naturales</li>
+          <li>Proporcionalidad básica (el todo y sus partes)</li>
+          <li>Lectura de gráficos de barra y circular simples</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 5</span>
+        <span class="oa-text">Potencias de base 10 con exponente natural, exponente 0 y notación científica.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Multiplicación repetida y su escritura abreviada</li>
+          <li>Sistema de numeración decimal (valor posicional)</li>
+          <li>Potencias de 10: 10, 100, 1000…</li>
+          <li>Números muy grandes y pequeños en contexto científico</li>
+          <li>Prefijos del sistema métrico (kilo, mega, mili)</li>
+        </ul>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- EJE: ÁLGEBRA -->
+  <section class="eje alg">
+    <div class="eje-header">
+      <div class="eje-icon" style="font-family:'Space Mono',monospace;font-size:13px;color:var(--alg)">x²</div>
+      <div class="eje-title-wrap">
+        <h2 style="color:var(--alg)">Álgebra y funciones</h2>
+        <span>OA 6 – 9 &nbsp;·&nbsp; 4 objetivos</span>
+      </div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 6</span>
+        <span class="oa-text">Lenguaje algebraico para generalizar relaciones, formular reglas y construir ecuaciones.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Patrones numéricos y geométricos crecientes y decrecientes</li>
+          <li>Uso de incógnitas con símbolos (□, ?) en operaciones básicas</li>
+          <li>Propiedades conmutativa, asociativa y distributiva</li>
+          <li>Comprensión de variable como cantidad que cambia</li>
+          <li>Escritura de expresiones numéricas con paréntesis</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 7</span>
+        <span class="oa-text">Reducir expresiones algebraicas reuniendo términos semejantes (ax + by + cz, con a, b, c ∈ ℤ).</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Identificar coeficiente, variable y término en una expresión</li>
+          <li>Operaciones con números enteros (suma y resta)</li>
+          <li>Propiedad distributiva de la multiplicación</li>
+          <li>Distinción entre términos semejantes y no semejantes</li>
+          <li>Leer expresiones como "3x" = "3 veces x"</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 8</span>
+        <span class="oa-text">Proporciones directas e inversas: tablas, gráficos y problemas de la vida diaria.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Razón y proporción entre cantidades</li>
+          <li>Regla de tres simple directa</li>
+          <li>Construcción e interpretación de tablas de valores</li>
+          <li>Graficación de pares ordenados en el plano cartesiano</li>
+          <li>Noción de función: a cada entrada corresponde una salida</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 9</span>
+        <span class="oa-text">Modelar y resolver ecuaciones e inecuaciones lineales: ax + b = c; ax + b &lt; c; ax + b &gt; c.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Resolución de ecuaciones simples con una operación (6° básico)</li>
+          <li>Operaciones inversas: suma↔resta, multiplicación↔división</li>
+          <li>Principio de equivalencia (lo que se hace a un lado se hace al otro)</li>
+          <li>Interpretación de desigualdades (&lt;, &gt;) en la recta numérica</li>
+          <li>Traducción de enunciados verbales a expresiones matemáticas</li>
+        </ul>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- EJE: GEOMETRÍA -->
+  <section class="eje geo">
+    <div class="eje-header">
+      <div class="eje-icon" style="font-size:18px">△</div>
+      <div class="eje-title-wrap">
+        <h2 style="color:var(--geo)">Geometría</h2>
+        <span>OA 10 – 14 &nbsp;·&nbsp; 5 objetivos</span>
+      </div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 10</span>
+        <span class="oa-text">Relaciones entre ángulos exteriores e interiores de diferentes polígonos.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Tipos de ángulos: agudo, recto, obtuso, llano, completo</li>
+          <li>Medición de ángulos con transportador</li>
+          <li>Clasificación de triángulos y cuadriláteros por sus ángulos</li>
+          <li>Suma de ángulos interiores del triángulo = 180°</li>
+          <li>Concepto de polígono regular e irregular</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 11</span>
+        <span class="oa-text">El círculo: radio, diámetro, perímetro y área. El círculo como lugar geométrico.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Uso del compás para trazar circunferencias</li>
+          <li>Concepto de radio y diámetro (relación d = 2r)</li>
+          <li>Número π y su aproximación (3,14...)</li>
+          <li>Fórmulas de perímetro de figuras planas conocidas</li>
+          <li>Concepto de área como superficie cubierta (unidades cuadradas)</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 12</span>
+        <span class="oa-text">Construcción de líneas, puntos notables y figuras congruentes (manual y/o software).</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Uso de regla, compás y escuadra</li>
+          <li>Trazar perpendiculares y paralelas con instrumentos</li>
+          <li>Concepto de bisectriz y mediatriz</li>
+          <li>Criterios de congruencia de triángulos (LLL, LAL, ALA)</li>
+          <li>Punto medio de un segmento</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 13</span>
+        <span class="oa-text">Fórmula del área de triángulos, paralelogramos y trapecios.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Área del rectángulo: A = base × altura</li>
+          <li>Concepto de altura de una figura (perpendicular a la base)</li>
+          <li>Identificar base y altura en distintas posiciones</li>
+          <li>Multiplicación y división de números decimales</li>
+          <li>Relación entre triángulo y rectángulo (la mitad del área)</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 14</span>
+        <span class="oa-text">Puntos en el plano cartesiano con pares ordenados y vectores (concreto y pictórico).</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Ejes coordenados x e y, y sus cuadrantes</li>
+          <li>Identificar y graficar puntos en el primer cuadrante</li>
+          <li>Números enteros positivos y negativos en la recta numérica</li>
+          <li>Noción de dirección y sentido (arriba/abajo, izquierda/derecha)</li>
+          <li>Lectura de mapas con coordenadas (juegos de cuadrículas)</li>
+        </ul>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- EJE: ESTADÍSTICA -->
+  <section class="eje est">
+    <div class="eje-header">
+      <div class="eje-icon" style="font-size:16px">📊</div>
+      <div class="eje-title-wrap">
+        <h2 style="color:var(--est)">Probabilidad y estadística</h2>
+        <span>OA 15 – 19 &nbsp;·&nbsp; 5 objetivos</span>
+      </div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 15</span>
+        <span class="oa-text">Estimar porcentaje de características de una población desconocida mediante muestreo.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Diferencia entre muestra y población</li>
+          <li>Cálculo de porcentaje y su interpretación</li>
+          <li>Concepto de representatividad de una muestra</li>
+          <li>Recolección de datos mediante encuestas simples</li>
+          <li>Lectura de tablas de datos</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 16</span>
+        <span class="oa-text">Representar datos en tablas de frecuencias absolutas y relativas, y gráficos apropiados.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Construcción e interpretación de gráficos de barra y pictogramas</li>
+          <li>Conteo y registro de datos en tablas simples</li>
+          <li>Cálculo de fracciones y porcentajes de un total</li>
+          <li>Noción de frecuencia: cuántas veces aparece cada valor</li>
+          <li>Selección del gráfico adecuado según tipo de dato</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 17</span>
+        <span class="oa-text">Medidas de tendencia central y rango: media, mediana, moda y comparación de poblaciones.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Cálculo de la media aritmética de un conjunto de datos</li>
+          <li>Ordenar datos de menor a mayor</li>
+          <li>Concepto de moda como dato más frecuente</li>
+          <li>Rango como diferencia entre máximo y mínimo</li>
+          <li>Interpretación de conjuntos de datos en contexto real</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 18</span>
+        <span class="oa-text">Probabilidades de eventos mediante experimentos: estimación, frecuencias relativas y razones.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Concepto de evento seguro, imposible y posible</li>
+          <li>Espacio muestral de un experimento simple (dado, moneda)</li>
+          <li>Fracción como razón parte/todo</li>
+          <li>Interpretación de frecuencia relativa como proporción</li>
+          <li>Registrar resultados de experimentos en tablas</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="oa-card" onclick="toggle(this)">
+      <button class="oa-trigger">
+        <span class="oa-badge">OA 19</span>
+        <span class="oa-text">Comparar frecuencias relativas con probabilidad teórica usando diagramas de árbol y tablas.</span>
+        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="oa-body"><div class="oa-body-inner">
+        <p class="prev-label">Conocimientos previos requeridos</p>
+        <ul class="prev-list">
+          <li>Probabilidad teórica: P(E) = casos favorables / casos posibles</li>
+          <li>Construcción de diagramas de árbol para dos eventos</li>
+          <li>Ley de los grandes números (más repeticiones → más cercanía a lo teórico)</li>
+          <li>Comparación de fracciones con igual denominador</li>
+          <li>Uso de software o simuladores para repetir experimentos</li>
+        </ul>
+      </div></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    Bases Curriculares 2015 · Ministerio de Educación de Chile · 7° básico a 2° medio · Matemática
+  </footer>
+</div>
+
+<script>
+// ── FONDO: NÚMEROS FLOTANTES ──
+const canvas = document.getElementById('canvas-bg');
+const ctx = canvas.getContext('2d');
+const symbols = ['π','∑','∫','√','∞','±','×','÷','≠','≤','≥','∈','∉','∀','∃','Δ','θ','α','β','φ','0','1','2','3','4','5','6','7','8','9','x','y','z','n','%','²','³'];
+const colors = ['#00e5b0','#a78bfa','#fb923c','#facc15','#60a5fa','#f472b6'];
+let particles = [];
+
+function resize() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function initParticles() {
+  particles = [];
+  const count = Math.floor((canvas.width * canvas.height) / 14000);
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      sym: symbols[Math.floor(Math.random() * symbols.length)],
+      color: colors[Math.floor(Math.random() * colors.length)],
+      size: 10 + Math.random() * 18,
+      speed: 0.15 + Math.random() * 0.4,
+      drift: (Math.random() - 0.5) * 0.3,
+      opacity: 0.1 + Math.random() * 0.5
+    });
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const p of particles) {
+    ctx.font = `${p.size}px Space Mono, monospace`;
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.opacity;
+    ctx.fillText(p.sym, p.x, p.y);
+    p.y -= p.speed;
+    p.x += p.drift;
+    if (p.y < -30) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+    if (p.x < -20) p.x = canvas.width + 10;
+    if (p.x > canvas.width + 20) p.x = -10;
+  }
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', () => { resize(); initParticles(); });
+resize();
+initParticles();
+animate();
+
+// ── ACORDEÓN ──
+function toggle(card) {
+  const body = card.querySelector('.oa-body');
+  const inner = card.querySelector('.oa-body-inner');
+  const isOpen = card.classList.contains('open');
+  if (isOpen) {
+    body.style.maxHeight = '0';
+    card.classList.remove('open');
+  } else {
+    body.style.maxHeight = inner.scrollHeight + 32 + 'px';
+    card.classList.add('open');
+  }
+  updateCount();
+}
+
+let allOpen = false;
+function toggleAll() {
+  allOpen = !allOpen;
+  document.querySelectorAll('.oa-card').forEach(card => {
+    const body = card.querySelector('.oa-body');
+    const inner = card.querySelector('.oa-body-inner');
+    if (allOpen) {
+      body.style.maxHeight = inner.scrollHeight + 32 + 'px';
+      card.classList.add('open');
+    } else {
+      body.style.maxHeight = '0';
+      card.classList.remove('open');
+    }
+  });
+  document.getElementById('btn-all').textContent = allOpen ? 'Colapsar todos' : 'Expandir todos';
+  updateCount();
+}
+
+function updateCount() {
+  const open = document.querySelectorAll('.oa-card.open').length;
+  document.getElementById('open-count').textContent = open;
+}
+</script>
+</body>
+</html>
