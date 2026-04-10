@@ -3,894 +3,1726 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Matemática 7° Básico — Bases Curriculares 2015</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<title>Guía de Operatoria Combinada – 7° Básico</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <style>
-  :root {
-    --bg: #0a0a14;
-    --surface: #11111f;
-    --surface2: #1a1a2e;
-    --border: rgba(255,255,255,0.07);
-    --border-hover: rgba(255,255,255,0.18);
-    --text: #f0eef8;
-    --muted: #8b88a8;
-    --dim: #3d3a55;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fira+Mono:wght@400;500&display=swap');
 
-    --num: #00e5b0;
-    --alg: #a78bfa;
-    --geo: #fb923c;
-    --est: #facc15;
+:root{
+  --azul:#1a3a5c; --celeste:#2980b9; --verde:#27ae60;
+  --rojo:#c0392b; --naranja:#e67e22; --lila:#8e44ad;
+  --gris:#ecf0f1; --gris2:#bdc3c7; --texto:#1c2833;
+  --sombra:0 4px 18px rgba(26,58,92,.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#dde8f5;color:var(--texto);}
 
-    --num-bg: rgba(0,229,176,0.08);
-    --alg-bg: rgba(167,139,250,0.08);
-    --geo-bg: rgba(251,146,60,0.08);
-    --est-bg: rgba(250,204,21,0.08);
-  }
+/* PORTADA */
+.portada{background:linear-gradient(135deg,var(--azul) 0%,#2c6fa8 60%,#1abc9c 100%);
+  color:#fff;text-align:center;padding:60px 40px 50px;position:relative;overflow:hidden;}
+.portada::before{content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.portada .colegio{font-size:.85rem;letter-spacing:2px;text-transform:uppercase;opacity:.8;margin-bottom:8px;}
+.portada h1{font-size:2.6rem;font-weight:900;line-height:1.1;margin-bottom:10px;text-shadow:0 2px 8px rgba(0,0,0,.3);}
+.portada .subtitulo{font-size:1.1rem;opacity:.9;margin-bottom:18px;}
+.portada .chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:700;letter-spacing:1px;}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.btn-pdf-wrap{display:flex;justify-content:center;padding:22px 0 10px;background:#dde8f5;}
+.btn-pdf{background:linear-gradient(135deg,var(--azul),var(--celeste));color:#fff;border:none;
+  border-radius:30px;padding:14px 36px;font-size:1rem;font-weight:800;cursor:pointer;
+  box-shadow:0 6px 20px rgba(26,58,92,.35);transition:transform .15s;
+  display:flex;align-items:center;gap:10px;}
+.btn-pdf:hover{transform:translateY(-2px);}
+.btn-pdf svg{width:22px;height:22px;}
 
-  html { scroll-behavior: smooth; }
+.contenido{max-width:960px;margin:30px auto 60px;padding:0 20px;}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+.seccion-titulo{display:flex;align-items:center;gap:14px;margin:40px 0 22px;}
+.seccion-titulo .num{background:var(--azul);color:#fff;width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;flex-shrink:0;}
+.seccion-titulo h2{font-size:1.35rem;font-weight:800;color:var(--azul);}
 
-  /* ── CANVAS FONDO ── */
-  #canvas-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.18;
-  }
+.card{background:#fff;border-radius:16px;box-shadow:var(--sombra);
+  margin-bottom:28px;overflow:hidden;border-left:6px solid var(--celeste);}
+.card.verde{border-color:var(--verde);}
+.card.naranja{border-color:var(--naranja);}
+.card.lila{border-color:var(--lila);}
+.card.rojo{border-color:var(--rojo);}
+.card-header{padding:14px 22px;background:var(--gris);display:flex;align-items:center;gap:12px;border-bottom:1px solid #dde;}
+.card-header .ej-num{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#666;}
+.card-header .ej-expr{font-family:'Fira Mono',monospace;font-size:1rem;font-weight:600;color:var(--azul);}
+.card-body{padding:22px 26px;}
 
-  /* ── GRADIENTE RADIAL SUAVE ── */
-  .bg-glow {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0,229,176,0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(167,139,250,0.07) 0%, transparent 70%);
-  }
+.paso{display:flex;gap:14px;margin-bottom:20px;align-items:flex-start;}
+.paso-num{min-width:28px;height:28px;border-radius:50%;background:var(--celeste);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;flex-shrink:0;margin-top:2px;}
+.paso-contenido{flex:1;}
+.paso-titulo{font-weight:800;font-size:.9rem;color:var(--azul);margin-bottom:5px;}
+.paso-desc{font-size:.92rem;line-height:1.6;color:#444;}
+.highlight{background:#fffde7;border-radius:4px;padding:1px 5px;font-weight:700;}
 
-  /* ── CONTENIDO PRINCIPAL ── */
-  .wrapper {
-    position: relative;
-    z-index: 1;
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 5rem;
-  }
+.terminos-box{background:#f0f7ff;border:1.5px dashed var(--celeste);border-radius:10px;padding:12px 16px;margin:10px 0;}
+.terminos-box .t-label{font-weight:800;color:var(--celeste);font-size:.82rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.terminos-lista{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+.termino-item{background:var(--celeste);color:#fff;border-radius:20px;
+  padding:3px 14px;font-size:.85rem;font-weight:700;font-family:'Fira Mono',monospace;}
 
-  /* ── HEADER ── */
-  .hero {
-    text-align: center;
-    margin-bottom: 3.5rem;
-    animation: fadeUp 0.8s ease both;
-  }
+/* ═══════════════════════════════════════════════════
+   BLOQUE CASCADA: árbol izquierda + igualdades derecha
+   Imita exactamente el estilo manuscrito del alumno:
+   expresión → flechas ↓ → resultado → flechas ↓ → ...
+   ═══════════════════════════════════════════════════ */
+.cascada-wrap{
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+  background: #f8faff;
+  border: 1.5px solid #d0e4f7;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin: 12px 0 8px;
+  flex-wrap: wrap;
+}
 
-  .hero-badge {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    color: var(--num);
-    border: 1px solid rgba(0,229,176,0.3);
-    padding: 5px 14px;
-    border-radius: 100px;
-    margin-bottom: 1.4rem;
-    text-transform: uppercase;
-  }
+/* Columna izquierda: el SVG de las flechas en cascada */
+.cascada-svg-col{
+  flex: 0 0 auto;
+  margin-right: 0;
+}
 
-  .hero h1 {
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.8rem;
-    background: linear-gradient(135deg, #f0eef8 0%, #a78bfa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+/* Línea separadora vertical */
+.cascada-sep{
+  width: 2px;
+  background: #d0e4f7;
+  align-self: stretch;
+  margin: 0 24px;
+  flex-shrink: 0;
+}
 
-  .hero p {
-    font-size: 16px;
-    color: var(--muted);
-    font-weight: 300;
-    max-width: 500px;
-    margin: 0 auto 2rem;
-    line-height: 1.7;
-  }
+/* Columna derecha: las igualdades apiladas */
+.cascada-igualdades{
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+.cascada-igualdades .ci-label{
+  font-size:.72rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:1px;color:var(--celeste);margin-bottom:10px;
+}
 
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--bg);
-    background: var(--num);
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-    box-shadow: 0 0 24px rgba(0,229,176,0.3);
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 36px rgba(0,229,176,0.5);
-    background: #00ffbf;
-  }
-  .btn-primary svg { width: 14px; height: 14px; }
+/* Cada línea de igualdad — grid para alinear = y expresión */
+.ci-linea{
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  align-items: center;
+  min-height: 34px;
+  line-height: 1;
+}
+.ci-eq{
+  font-weight:800; color:var(--celeste); font-size:1.1rem;
+  text-align:center; padding-top:2px;
+}
+.ci-expr{ font-size:.93rem; padding: 2px 0; }
 
-  /* ── HABILIDADES ── */
-  .habilidades {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 10px;
-    margin-bottom: 3.5rem;
-    animation: fadeUp 0.8s 0.1s ease both;
-  }
+/* Última línea — resultado destacado en verde */
+.ci-linea.final .ci-eq{ color:var(--verde); }
+.ci-linea.final .ci-expr{
+  display:inline-block;
+  background:var(--verde); color:#fff;
+  border-radius:8px; padding:4px 16px;
+  font-weight:800;
+  margin-top:4px;
+}
 
-  .hab-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    text-align: center;
-    transition: border-color 0.25s, transform 0.25s;
-  }
-  .hab-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+/* Nodos SVG */
+.nc{fill:#fff;stroke:var(--azul);stroke-width:2;}
+.nc.op{fill:var(--azul);stroke:var(--azul);}
+.nc.res{fill:var(--verde);stroke:var(--verde);}
+.nt{fill:var(--texto);font-family:'Fira Mono',monospace;font-size:12px;font-weight:600;dominant-baseline:middle;}
+.nt.op{fill:#fff;font-weight:800;}
+.nt.res{fill:#fff;font-weight:800;}
+.al{stroke:var(--gris2);stroke-width:1.8;fill:none;}
+/* Flecha ↓ estilo alumno */
+.flecha-abajo{stroke:var(--azul);stroke-width:2.2;fill:none;stroke-linecap:round;}
 
-  .hab-icon { font-size: 22px; margin-bottom: 6px; }
-  .hab-name { font-size: 12px; font-weight: 500; color: var(--text); }
-  .hab-desc { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.alumno-box{background:#fff9f0;border:1.5px solid var(--naranja);
+  border-radius:10px;padding:10px 16px;margin-top:12px;font-size:.88rem;}
+.alumno-box .al-label{font-size:.75rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:1px;color:var(--naranja);margin-bottom:4px;}
+.correcto{color:var(--verde);font-weight:800;}
+.incorrecto{color:var(--rojo);font-weight:800;}
 
-  /* ── SECCIÓN EJE ── */
-  .eje {
-    margin-bottom: 2.8rem;
-    animation: fadeUp 0.7s ease both;
-  }
+.sep{border:none;border-top:2px dashed var(--gris2);margin:32px 0;}
+.problema-enunciado{background:#f8f9fa;border-radius:10px;padding:14px 18px;
+  font-size:.93rem;line-height:1.7;border-left:4px solid var(--lila);margin-bottom:16px;}
+.problema-enunciado strong{color:var(--lila);}
+.prop-espacio{background:#fff;border-radius:8px;border:1.5px solid #ccc;
+  min-height:70px;margin-top:14px;padding:10px;color:#bbb;font-size:.85rem;}
 
-  .eje-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 1.2rem;
-  }
-
-  .eje-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-
-  .eje-title-wrap h2 {
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .eje-title-wrap span {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: 'Space Mono', monospace;
-  }
-
-  /* ── OA CARD ── */
-  .oa-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    margin-bottom: 10px;
-    overflow: hidden;
-    transition: border-color 0.25s;
-  }
-  .oa-card:hover { border-color: var(--border-hover); }
-  .oa-card.open { border-color: var(--border-hover); }
-
-  .oa-trigger {
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 16px 18px;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    cursor: pointer;
-    text-align: left;
-    color: var(--text);
-    transition: background 0.2s;
-  }
-  .oa-trigger:hover { background: rgba(255,255,255,0.03); }
-
-  .oa-badge {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 4px 9px;
-    border-radius: 6px;
-    flex-shrink: 0;
-    margin-top: 1px;
-    letter-spacing: 0.05em;
-  }
-
-  .oa-text { font-size: 14px; line-height: 1.6; flex: 1; font-weight: 400; }
-
-  .oa-chevron {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    margin-top: 2px;
-    color: var(--dim);
-    transition: transform 0.3s cubic-bezier(.4,0,.2,1), color 0.2s;
-  }
-  .oa-card.open .oa-chevron { transform: rotate(180deg); color: var(--muted); }
-
-  .oa-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(.4,0,.2,1);
-  }
-  .oa-body-inner {
-    padding: 0 18px 18px;
-    border-top: 1px solid var(--border);
-    padding-top: 16px;
-  }
-
-  .prev-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-
-  .prev-list { list-style: none; }
-  .prev-list li {
-    font-size: 13px;
-    color: #ccc8e8;
-    padding: 7px 0 7px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    position: relative;
-    line-height: 1.55;
-    font-weight: 300;
-  }
-  .prev-list li:last-child { border-bottom: none; }
-  .prev-list li::before {
-    content: '';
-    position: absolute;
-    left: 4px;
-    top: 14px;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--dim);
-  }
-
-  /* ── COLORES POR EJE ── */
-  .num .oa-badge { background: var(--num-bg); color: var(--num); }
-  .num .eje-icon { background: var(--num-bg); }
-  .num .oa-card.open { border-color: rgba(0,229,176,0.25); }
-
-  .alg .oa-badge { background: var(--alg-bg); color: var(--alg); }
-  .alg .eje-icon { background: var(--alg-bg); }
-  .alg .oa-card.open { border-color: rgba(167,139,250,0.25); }
-
-  .geo .oa-badge { background: var(--geo-bg); color: var(--geo); }
-  .geo .eje-icon { background: var(--geo-bg); }
-  .geo .oa-card.open { border-color: rgba(251,146,60,0.25); }
-
-  .est .oa-badge { background: var(--est-bg); color: var(--est); }
-  .est .eje-icon { background: var(--est-bg); }
-  .est .oa-card.open { border-color: rgba(250,204,21,0.25); }
-
-  /* ── TOOLBAR ── */
-  .toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    gap: 12px;
-    flex-wrap: wrap;
-    animation: fadeUp 0.7s 0.05s ease both;
-  }
-
-  .btn-toggle {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-toggle:hover { border-color: var(--border-hover); color: var(--text); }
-
-  .oa-count {
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .oa-count span { color: var(--text); font-weight: 700; }
-
-  /* ── FOOTER ── */
-  .footer {
-    text-align: center;
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-    font-size: 12px;
-    color: var(--dim);
-    font-family: 'Space Mono', monospace;
-  }
-
-  /* ── ANIMACIONES ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .eje:nth-child(1) { animation-delay: 0.1s; }
-  .eje:nth-child(2) { animation-delay: 0.2s; }
-  .eje:nth-child(3) { animation-delay: 0.3s; }
-  .eje:nth-child(4) { animation-delay: 0.4s; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 520px) {
-    .wrapper { padding: 2rem 1rem 4rem; }
-    .hero h1 { font-size: 1.8rem; }
-    .habilidades { grid-template-columns: 1fr 1fr; }
-  }
+@media print{
+  body{background:#fff;}
+  .btn-pdf-wrap{display:none;}
+  .contenido{max-width:100%;margin:0;padding:0 10px;}
+  .card{box-shadow:none;page-break-inside:avoid;}
+}
+.katex{font-size:1em;}
 </style>
 </head>
 <body>
 
-<canvas id="canvas-bg"></canvas>
-<div class="bg-glow"></div>
-
-<div class="wrapper">
-
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-badge">Bases Curriculares 2015</div>
-    <h1>Matemática<br>7° Básico</h1>
-    <p>Objetivos de aprendizaje y conocimientos previos requeridos para cada uno de los 19 OA del currículum chileno.</p>
-    <a href="https://www.curriculumnacional.cl/curriculum/7o-basico-2o-medio/matematica/7-basico" target="_blank" class="btn-primary">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Ver en Curriculum Nacional
-    </a>
-  </header>
-
-  <!-- HABILIDADES -->
-  <div class="habilidades">
-    <div class="hab-card">
-      <div class="hab-icon">🔍</div>
-      <div class="hab-name">Resolver problemas</div>
-      <div class="hab-desc">Estrategias, ensayo-error, verificación</div>
-    </div>
-    <div class="hab-card">
-      <div class="hab-icon">💬</div>
-      <div class="hab-name">Argumentar</div>
-      <div class="hab-desc">Fundamentar, comunicar, debatir</div>
-    </div>
-    <div class="hab-card">
-      <div class="hab-icon">📐</div>
-      <div class="hab-name">Modelar</div>
-      <div class="hab-desc">Usar y ajustar modelos matemáticos</div>
-    </div>
-    <div class="hab-card">
-      <div class="hab-icon">🔢</div>
-      <div class="hab-name">Representar</div>
-      <div class="hab-desc">Tablas, gráficos, símbolos, analogías</div>
-    </div>
+<div class="portada">
+  <div class="colegio">Colegio Seminario Padre Alberto Hurtado · Dpto. Matemática</div>
+  <h1>Operatoria Combinada</h1>
+  <div class="subtitulo">Resolución paso a paso con diagramas de árbol</div>
+  <div class="chips">
+    <span class="chip">7° Básico</span>
+    <span class="chip">Números Naturales</span>
+    <span class="chip">Guía de Trabajo</span>
   </div>
-
-  <!-- TOOLBAR -->
-  <div class="toolbar">
-    <div class="oa-count"><span id="open-count">0</span> / 19 objetivos abiertos</div>
-    <button class="btn-toggle" id="btn-all" onclick="toggleAll()">Expandir todos</button>
-  </div>
-
-  <!-- EJE: NÚMEROS -->
-  <section class="eje num">
-    <div class="eje-header">
-      <div class="eje-icon">∑</div>
-      <div class="eje-title-wrap">
-        <h2 style="color:var(--num)">Números</h2>
-        <span>OA 1 – 5 &nbsp;·&nbsp; 5 objetivos</span>
-      </div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 1</span>
-        <span class="oa-text">Adición y sustracción de números enteros: recta numérica, representaciones y problemas cotidianos.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Números naturales y su orden en la recta numérica</li>
-          <li>Concepto de número negativo en contextos cotidianos (deudas, temperaturas)</li>
-          <li>Adición y sustracción de naturales con reagrupación</li>
-          <li>Valor absoluto como distancia al origen</li>
-          <li>Representación pictórica de cantidades opuestas (ganancia/pérdida)</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 2</span>
-        <span class="oa-text">Multiplicación y división de fracciones positivas: representaciones concretas, pictóricas y simbólicas.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Concepto de fracción como parte de un todo y como cociente</li>
-          <li>Fracciones equivalentes y simplificación</li>
-          <li>Adición y sustracción de fracciones con distinto denominador</li>
-          <li>Tablas de multiplicación y algoritmo de la división</li>
-          <li>Relación entre fracciones y números decimales</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 3</span>
-        <span class="oa-text">Problemas con multiplicación y división de fracciones y decimales positivos (manual y/o software).</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Algoritmos de multiplicación y división de decimales</li>
-          <li>Conversión entre fracciones y decimales</li>
-          <li>Lectura e interpretación de enunciados de problemas</li>
-          <li>Estimación y verificación de resultados</li>
-          <li>Uso básico de calculadora o software educativo</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 4</span>
-        <span class="oa-text">Concepto de porcentaje: representación pictórica, cálculo y aplicaciones sencillas.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Fracciones con denominador 100</li>
-          <li>Relación fracción–decimal–porcentaje (½ = 0,5 = 50%)</li>
-          <li>Multiplicación de decimales por números naturales</li>
-          <li>Proporcionalidad básica (el todo y sus partes)</li>
-          <li>Lectura de gráficos de barra y circular simples</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 5</span>
-        <span class="oa-text">Potencias de base 10 con exponente natural, exponente 0 y notación científica.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Multiplicación repetida y su escritura abreviada</li>
-          <li>Sistema de numeración decimal (valor posicional)</li>
-          <li>Potencias de 10: 10, 100, 1000…</li>
-          <li>Números muy grandes y pequeños en contexto científico</li>
-          <li>Prefijos del sistema métrico (kilo, mega, mili)</li>
-        </ul>
-      </div></div>
-    </div>
-  </section>
-
-  <!-- EJE: ÁLGEBRA -->
-  <section class="eje alg">
-    <div class="eje-header">
-      <div class="eje-icon" style="font-family:'Space Mono',monospace;font-size:13px;color:var(--alg)">x²</div>
-      <div class="eje-title-wrap">
-        <h2 style="color:var(--alg)">Álgebra y funciones</h2>
-        <span>OA 6 – 9 &nbsp;·&nbsp; 4 objetivos</span>
-      </div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 6</span>
-        <span class="oa-text">Lenguaje algebraico para generalizar relaciones, formular reglas y construir ecuaciones.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Patrones numéricos y geométricos crecientes y decrecientes</li>
-          <li>Uso de incógnitas con símbolos (□, ?) en operaciones básicas</li>
-          <li>Propiedades conmutativa, asociativa y distributiva</li>
-          <li>Comprensión de variable como cantidad que cambia</li>
-          <li>Escritura de expresiones numéricas con paréntesis</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 7</span>
-        <span class="oa-text">Reducir expresiones algebraicas reuniendo términos semejantes (ax + by + cz, con a, b, c ∈ ℤ).</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Identificar coeficiente, variable y término en una expresión</li>
-          <li>Operaciones con números enteros (suma y resta)</li>
-          <li>Propiedad distributiva de la multiplicación</li>
-          <li>Distinción entre términos semejantes y no semejantes</li>
-          <li>Leer expresiones como "3x" = "3 veces x"</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 8</span>
-        <span class="oa-text">Proporciones directas e inversas: tablas, gráficos y problemas de la vida diaria.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Razón y proporción entre cantidades</li>
-          <li>Regla de tres simple directa</li>
-          <li>Construcción e interpretación de tablas de valores</li>
-          <li>Graficación de pares ordenados en el plano cartesiano</li>
-          <li>Noción de función: a cada entrada corresponde una salida</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 9</span>
-        <span class="oa-text">Modelar y resolver ecuaciones e inecuaciones lineales: ax + b = c; ax + b &lt; c; ax + b &gt; c.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Resolución de ecuaciones simples con una operación (6° básico)</li>
-          <li>Operaciones inversas: suma↔resta, multiplicación↔división</li>
-          <li>Principio de equivalencia (lo que se hace a un lado se hace al otro)</li>
-          <li>Interpretación de desigualdades (&lt;, &gt;) en la recta numérica</li>
-          <li>Traducción de enunciados verbales a expresiones matemáticas</li>
-        </ul>
-      </div></div>
-    </div>
-  </section>
-
-  <!-- EJE: GEOMETRÍA -->
-  <section class="eje geo">
-    <div class="eje-header">
-      <div class="eje-icon" style="font-size:18px">△</div>
-      <div class="eje-title-wrap">
-        <h2 style="color:var(--geo)">Geometría</h2>
-        <span>OA 10 – 14 &nbsp;·&nbsp; 5 objetivos</span>
-      </div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 10</span>
-        <span class="oa-text">Relaciones entre ángulos exteriores e interiores de diferentes polígonos.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Tipos de ángulos: agudo, recto, obtuso, llano, completo</li>
-          <li>Medición de ángulos con transportador</li>
-          <li>Clasificación de triángulos y cuadriláteros por sus ángulos</li>
-          <li>Suma de ángulos interiores del triángulo = 180°</li>
-          <li>Concepto de polígono regular e irregular</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 11</span>
-        <span class="oa-text">El círculo: radio, diámetro, perímetro y área. El círculo como lugar geométrico.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Uso del compás para trazar circunferencias</li>
-          <li>Concepto de radio y diámetro (relación d = 2r)</li>
-          <li>Número π y su aproximación (3,14...)</li>
-          <li>Fórmulas de perímetro de figuras planas conocidas</li>
-          <li>Concepto de área como superficie cubierta (unidades cuadradas)</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 12</span>
-        <span class="oa-text">Construcción de líneas, puntos notables y figuras congruentes (manual y/o software).</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Uso de regla, compás y escuadra</li>
-          <li>Trazar perpendiculares y paralelas con instrumentos</li>
-          <li>Concepto de bisectriz y mediatriz</li>
-          <li>Criterios de congruencia de triángulos (LLL, LAL, ALA)</li>
-          <li>Punto medio de un segmento</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 13</span>
-        <span class="oa-text">Fórmula del área de triángulos, paralelogramos y trapecios.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Área del rectángulo: A = base × altura</li>
-          <li>Concepto de altura de una figura (perpendicular a la base)</li>
-          <li>Identificar base y altura en distintas posiciones</li>
-          <li>Multiplicación y división de números decimales</li>
-          <li>Relación entre triángulo y rectángulo (la mitad del área)</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 14</span>
-        <span class="oa-text">Puntos en el plano cartesiano con pares ordenados y vectores (concreto y pictórico).</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Ejes coordenados x e y, y sus cuadrantes</li>
-          <li>Identificar y graficar puntos en el primer cuadrante</li>
-          <li>Números enteros positivos y negativos en la recta numérica</li>
-          <li>Noción de dirección y sentido (arriba/abajo, izquierda/derecha)</li>
-          <li>Lectura de mapas con coordenadas (juegos de cuadrículas)</li>
-        </ul>
-      </div></div>
-    </div>
-  </section>
-
-  <!-- EJE: ESTADÍSTICA -->
-  <section class="eje est">
-    <div class="eje-header">
-      <div class="eje-icon" style="font-size:16px">📊</div>
-      <div class="eje-title-wrap">
-        <h2 style="color:var(--est)">Probabilidad y estadística</h2>
-        <span>OA 15 – 19 &nbsp;·&nbsp; 5 objetivos</span>
-      </div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 15</span>
-        <span class="oa-text">Estimar porcentaje de características de una población desconocida mediante muestreo.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Diferencia entre muestra y población</li>
-          <li>Cálculo de porcentaje y su interpretación</li>
-          <li>Concepto de representatividad de una muestra</li>
-          <li>Recolección de datos mediante encuestas simples</li>
-          <li>Lectura de tablas de datos</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 16</span>
-        <span class="oa-text">Representar datos en tablas de frecuencias absolutas y relativas, y gráficos apropiados.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Construcción e interpretación de gráficos de barra y pictogramas</li>
-          <li>Conteo y registro de datos en tablas simples</li>
-          <li>Cálculo de fracciones y porcentajes de un total</li>
-          <li>Noción de frecuencia: cuántas veces aparece cada valor</li>
-          <li>Selección del gráfico adecuado según tipo de dato</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 17</span>
-        <span class="oa-text">Medidas de tendencia central y rango: media, mediana, moda y comparación de poblaciones.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Cálculo de la media aritmética de un conjunto de datos</li>
-          <li>Ordenar datos de menor a mayor</li>
-          <li>Concepto de moda como dato más frecuente</li>
-          <li>Rango como diferencia entre máximo y mínimo</li>
-          <li>Interpretación de conjuntos de datos en contexto real</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 18</span>
-        <span class="oa-text">Probabilidades de eventos mediante experimentos: estimación, frecuencias relativas y razones.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Concepto de evento seguro, imposible y posible</li>
-          <li>Espacio muestral de un experimento simple (dado, moneda)</li>
-          <li>Fracción como razón parte/todo</li>
-          <li>Interpretación de frecuencia relativa como proporción</li>
-          <li>Registrar resultados de experimentos en tablas</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="oa-card" onclick="toggle(this)">
-      <button class="oa-trigger">
-        <span class="oa-badge">OA 19</span>
-        <span class="oa-text">Comparar frecuencias relativas con probabilidad teórica usando diagramas de árbol y tablas.</span>
-        <svg class="oa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="oa-body"><div class="oa-body-inner">
-        <p class="prev-label">Conocimientos previos requeridos</p>
-        <ul class="prev-list">
-          <li>Probabilidad teórica: P(E) = casos favorables / casos posibles</li>
-          <li>Construcción de diagramas de árbol para dos eventos</li>
-          <li>Ley de los grandes números (más repeticiones → más cercanía a lo teórico)</li>
-          <li>Comparación de fracciones con igual denominador</li>
-          <li>Uso de software o simuladores para repetir experimentos</li>
-        </ul>
-      </div></div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    Bases Curriculares 2015 · Ministerio de Educación de Chile · 7° básico a 2° medio · Matemática
-  </footer>
 </div>
 
+<div class="btn-pdf-wrap">
+  <button class="btn-pdf" onclick="exportarPDF()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/>
+      <polyline points="9 15 12 18 15 15"/>
+    </svg>
+    Exportar como PDF
+  </button>
+</div>
+
+<div class="contenido" id="guia">
+
+<!-- ══════ SECCIÓN I ══════ -->
+<div class="seccion-titulo">
+  <div class="num">I</div>
+  <h2>Ejercicios de Operatoria Combinada — Resolución Completa</h2>
+</div>
+
+<!-- ════ EJ 1: 45 − 23 + 6 − 12 + 17 = 33 ════ -->
+<div class="card">
+  <div class="card-header">
+    <span class="ej-num">Ejercicio 1</span>
+    <span class="ej-expr">45 − 23 + 6 − 12 + 17</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">Las <span class="highlight">+ y −</span> separan los términos. Hay 2 signos − y 2 signos + → <strong>5 términos</strong>.</div>
+        <div class="terminos-box"><div class="t-label">Términos (5)</div>
+          <div class="terminos-lista">
+            <span class="termino-item">45</span><span class="termino-item">23</span>
+            <span class="termino-item">6</span><span class="termino-item">12</span><span class="termino-item">17</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Orden</div>
+        <div class="paso-desc">Solo sumas y restas → <strong>de izquierda a derecha</strong>.</div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">3</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <!-- SVG cascada: imita flechas del alumno -->
+          <div class="cascada-svg-col">
+            <!--
+              Fila 1: 45  −  23  +  6  −  12  +  17
+              Flechas: 45 y 23 se juntan abajo → 22
+                       6 baja directo
+                       12 y 17... etc.
+              Simplificamos mostrando los 3 pasos de combinación
+            -->
+            <svg width="300" height="280" viewBox="0 0 300 280">
+              <!-- Fila 1: los 5 términos -->
+              <text class="nt" x="18" y="20" font-size="13">45</text>
+              <text class="nt" x="58" y="20" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="75" y="20" font-size="13">23</text>
+              <text class="nt" x="115" y="20" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="130" y="20" font-size="13">6</text>
+              <text class="nt" x="158" y="20" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="175" y="20" font-size="13">12</text>
+              <text class="nt" x="210" y="20" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="228" y="20" font-size="13">17</text>
+
+              <!-- Flechas 45 y 23 → 22 -->
+              <line class="flecha-abajo" x1="26" y1="28" x2="62" y2="58"/>
+              <line class="flecha-abajo" x1="82" y1="28" x2="62" y2="58"/>
+              <!-- punta flecha -->
+              <polyline class="flecha-abajo" points="56,52 62,58 68,52"/>
+
+              <!-- 6 baja solo -->
+              <line class="flecha-abajo" x1="133" y1="28" x2="133" y2="56"/>
+              <polyline class="flecha-abajo" points="127,50 133,56 139,50"/>
+
+              <!-- 12 y 17 permanecen sin bajar aún -->
+              <line class="flecha-abajo" x1="181" y1="28" x2="181" y2="56"/>
+              <polyline class="flecha-abajo" points="175,50 181,56 187,50"/>
+              <line class="flecha-abajo" x1="235" y1="28" x2="235" y2="56"/>
+              <polyline class="flecha-abajo" points="229,50 235,56 241,50"/>
+
+              <!-- Fila 2: 22 + 6 − 12 + 17 -->
+              <text class="nt" x="50" y="74" font-size="13" font-weight="700" fill="#1a3a5c">22</text>
+              <text class="nt" x="82" y="74" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="97" y="74" font-size="13">6</text>
+              <text class="nt" x="125" y="74" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="143" y="74" font-size="13">12</text>
+              <text class="nt" x="175" y="74" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="193" y="74" font-size="13">17</text>
+
+              <!-- Flechas 22 y 6 → 28 -->
+              <line class="flecha-abajo" x1="58" y1="82" x2="95" y2="112"/>
+              <line class="flecha-abajo" x1="102" y1="82" x2="95" y2="112"/>
+              <polyline class="flecha-abajo" points="89,106 95,112 101,106"/>
+              <!-- 12 baja -->
+              <line class="flecha-abajo" x1="149" y1="82" x2="149" y2="110"/>
+              <polyline class="flecha-abajo" points="143,104 149,110 155,104"/>
+              <!-- 17 baja -->
+              <line class="flecha-abajo" x1="199" y1="82" x2="199" y2="110"/>
+              <polyline class="flecha-abajo" points="193,104 199,110 205,104"/>
+
+              <!-- Fila 3: 28 − 12 + 17 -->
+              <text class="nt" x="80" y="128" font-size="13" font-weight="700" fill="#1a3a5c">28</text>
+              <text class="nt" x="108" y="128" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="125" y="128" font-size="13">12</text>
+              <text class="nt" x="155" y="128" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="172" y="128" font-size="13">17</text>
+
+              <!-- 28 y 12 → 16 -->
+              <line class="flecha-abajo" x1="88" y1="136" x2="122" y2="166"/>
+              <line class="flecha-abajo" x1="130" y1="136" x2="122" y2="166"/>
+              <polyline class="flecha-abajo" points="116,160 122,166 128,160"/>
+              <!-- 17 baja -->
+              <line class="flecha-abajo" x1="178" y1="136" x2="178" y2="164"/>
+              <polyline class="flecha-abajo" points="172,158 178,164 184,158"/>
+
+              <!-- Fila 4: 16 + 17 -->
+              <text class="nt" x="106" y="182" font-size="13" font-weight="700" fill="#1a3a5c">16</text>
+              <text class="nt" x="132" y="182" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="149" y="182" font-size="13">17</text>
+
+              <!-- 16 y 17 → 33 -->
+              <line class="flecha-abajo" x1="114" y1="190" x2="148" y2="220"/>
+              <line class="flecha-abajo" x1="155" y1="190" x2="148" y2="220"/>
+              <polyline class="flecha-abajo" points="142,214 148,220 154,214"/>
+
+              <!-- Resultado final -->
+              <rect x="118" y="228" width="60" height="30" rx="8" fill="#27ae60"/>
+              <text x="148" y="248" text-anchor="middle" font-size="15" font-weight="800" fill="white" font-family="Fira Mono,monospace">33</text>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$45 - 23 + 6 - 12 + 17$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$22 + 6 - 12 + 17$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$28 - 12 + 17$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$16 + 17$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$33$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">33 ✓</span></div>
+  </div>
+</div>
+
+<!-- ════ EJ 2: 48:6 + 5·2 + 5·3 + 15 = 48 ════ -->
+<div class="card verde">
+  <div class="card-header">
+    <span class="ej-num">Ejercicio 2</span>
+    <span class="ej-expr">48 : 6 + 5 · 2 + 5 · 3 + 15</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">3 signos + → <strong>4 términos</strong>. Primero × y ÷ dentro de cada uno.</div>
+        <div class="terminos-box"><div class="t-label">Términos (4)</div>
+          <div class="terminos-lista">
+            <span class="termino-item">48:6</span><span class="termino-item">5·2</span>
+            <span class="termino-item">5·3</span><span class="termino-item">15</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <div class="cascada-svg-col">
+            <svg width="280" height="240" viewBox="0 0 280 240">
+              <!-- Fila 1: términos originales -->
+              <text class="nt" x="5"  y="20" font-size="12">48:6</text>
+              <text class="nt" x="62" y="20" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="78" y="20" font-size="12">5·2</text>
+              <text class="nt" x="120" y="20" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="136" y="20" font-size="12">5·3</text>
+              <text class="nt" x="178" y="20" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="194" y="20" font-size="12">15</text>
+
+              <!-- flechas hacia fila 2 (simplificar cada término) -->
+              <line class="flecha-abajo" x1="20"  y1="28" x2="20"  y2="56"/><polyline class="flecha-abajo" points="14,50 20,56 26,50"/>
+              <line class="flecha-abajo" x1="90"  y1="28" x2="90"  y2="56"/><polyline class="flecha-abajo" points="84,50 90,56 96,50"/>
+              <line class="flecha-abajo" x1="148" y1="28" x2="148" y2="56"/><polyline class="flecha-abajo" points="142,50 148,56 154,50"/>
+              <line class="flecha-abajo" x1="200" y1="28" x2="200" y2="56"/><polyline class="flecha-abajo" points="194,50 200,56 206,50"/>
+
+              <!-- Fila 2: 8 + 10 + 15 + 15 -->
+              <text class="nt" x="12"  y="73" font-size="13" font-weight="700" fill="#1a3a5c">8</text>
+              <text class="nt" x="32"  y="73" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="48"  y="73" font-size="13" font-weight="700" fill="#1a3a5c">10</text>
+              <text class="nt" x="80"  y="73" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="96"  y="73" font-size="13" font-weight="700" fill="#1a3a5c">15</text>
+              <text class="nt" x="128" y="73" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="144" y="73" font-size="13" font-weight="700" fill="#1a3a5c">15</text>
+
+              <!-- 8+10 → 18 -->
+              <line class="flecha-abajo" x1="17"  y1="81" x2="68" y2="111"/><line class="flecha-abajo" x1="54" y1="81" x2="68" y2="111"/>
+              <polyline class="flecha-abajo" points="62,105 68,111 74,105"/>
+              <!-- 15+15 bajan -->
+              <line class="flecha-abajo" x1="102" y1="81" x2="102" y2="109"/><polyline class="flecha-abajo" points="96,103 102,109 108,103"/>
+              <line class="flecha-abajo" x1="150" y1="81" x2="150" y2="109"/><polyline class="flecha-abajo" points="144,103 150,109 156,103"/>
+
+              <!-- Fila 3: 18 + 15 + 15 -->
+              <text class="nt" x="54"  y="127" font-size="13" font-weight="700" fill="#1a3a5c">18</text>
+              <text class="nt" x="82"  y="127" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="97"  y="127" font-size="13" font-weight="700" fill="#1a3a5c">15</text>
+              <text class="nt" x="125" y="127" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="141" y="127" font-size="13" font-weight="700" fill="#1a3a5c">15</text>
+
+              <!-- 18+15 → 33 -->
+              <line class="flecha-abajo" x1="62"  y1="135" x2="102" y2="165"/><line class="flecha-abajo" x1="104" y1="135" x2="102" y2="165"/>
+              <polyline class="flecha-abajo" points="96,159 102,165 108,159"/>
+              <line class="flecha-abajo" x1="147" y1="135" x2="147" y2="163"/><polyline class="flecha-abajo" points="141,157 147,163 153,157"/>
+
+              <!-- Fila 4: 33 + 15 -->
+              <text class="nt" x="84"  y="181" font-size="13" font-weight="700" fill="#1a3a5c">33</text>
+              <text class="nt" x="110" y="181" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="126" y="181" font-size="13" font-weight="700" fill="#1a3a5c">15</text>
+
+              <!-- → 48 -->
+              <line class="flecha-abajo" x1="92"  y1="189" x2="125" y2="214"/><line class="flecha-abajo" x1="132" y1="189" x2="125" y2="214"/>
+              <polyline class="flecha-abajo" points="119,208 125,214 131,208"/>
+              <rect x="98" y="220" width="54" height="28" rx="7" fill="#27ae60"/>
+              <text x="125" y="239" text-anchor="middle" font-size="15" font-weight="800" fill="white" font-family="Fira Mono,monospace">48</text>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$48\div6 + 5\cdot2 + 5\cdot3 + 15$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$8 + 10 + 15 + 15$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$18 + 15 + 15$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$33 + 15$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$48$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">48 ✓</span></div>
+  </div>
+</div>
+
+<!-- ════ EJ 3: (81−8·3):3 + 64:4 = 35 ════ -->
+<div class="card naranja">
+  <div class="card-header">
+    <span class="ej-num">Ejercicio 3</span>
+    <span class="ej-expr">(81 − 8·3) : 3 + 64 : 4</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">1 signo + fuera del paréntesis → <strong>2 términos</strong>.</div>
+        <div class="terminos-box"><div class="t-label">Términos (2)</div>
+          <div class="terminos-lista">
+            <span class="termino-item">(81−8·3):3</span><span class="termino-item">64:4</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <div class="cascada-svg-col">
+            <svg width="290" height="260" viewBox="0 0 290 260">
+              <!-- Fila 1 -->
+              <text class="nt" x="2"  y="20" font-size="11">(81−8·3):3</text>
+              <text class="nt" x="122" y="20" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="138" y="20" font-size="12">64:4</text>
+
+              <!-- Paso interior paréntesis: 8·3=24 -->
+              <line class="flecha-abajo" x1="50" y1="28" x2="50" y2="56"/><polyline class="flecha-abajo" points="44,50 50,56 56,50"/>
+              <line class="flecha-abajo" x1="155" y1="28" x2="155" y2="56"/><polyline class="flecha-abajo" points="149,50 155,56 161,50"/>
+
+              <!-- Fila 2 -->
+              <text class="nt" x="2"  y="73" font-size="11">(81−24):3</text>
+              <text class="nt" x="113" y="73" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="138" y="73" font-size="13" font-weight="700" fill="#1a3a5c">16</text>
+
+              <!-- Paso resta paréntesis: 81-24=57 -->
+              <line class="flecha-abajo" x1="50" y1="81" x2="50" y2="109"/><polyline class="flecha-abajo" points="44,103 50,109 56,103"/>
+              <line class="flecha-abajo" x1="144" y1="81" x2="144" y2="109"/><polyline class="flecha-abajo" points="138,103 144,109 150,103"/>
+
+              <!-- Fila 3 -->
+              <text class="nt" x="12" y="126" font-size="12">57:3</text>
+              <text class="nt" x="66" y="126" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="82" y="126" font-size="13" font-weight="700" fill="#1a3a5c">16</text>
+
+              <!-- 57:3=19 -->
+              <line class="flecha-abajo" x1="30" y1="134" x2="30" y2="162"/><polyline class="flecha-abajo" points="24,156 30,162 36,156"/>
+              <line class="flecha-abajo" x1="88" y1="134" x2="88" y2="162"/><polyline class="flecha-abajo" points="82,156 88,162 94,156"/>
+
+              <!-- Fila 4: 19 + 16 -->
+              <text class="nt" x="18" y="179" font-size="13" font-weight="700" fill="#1a3a5c">19</text>
+              <text class="nt" x="44" y="179" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="60" y="179" font-size="13" font-weight="700" fill="#1a3a5c">16</text>
+
+              <!-- → 35 -->
+              <line class="flecha-abajo" x1="26" y1="187" x2="62" y2="217"/><line class="flecha-abajo" x1="67" y1="187" x2="62" y2="217"/>
+              <polyline class="flecha-abajo" points="56,211 62,217 68,211"/>
+              <rect x="34" y="224" width="56" height="28" rx="7" fill="#27ae60"/>
+              <text x="62" y="243" text-anchor="middle" font-size="15" font-weight="800" fill="white" font-family="Fira Mono,monospace">35</text>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$(81 - 8\cdot3)\div3 + 64\div4$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$(81 - 24)\div3 + 16$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$57\div3 + 16$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$19 + 16$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$35$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">35 ✓</span></div>
+  </div>
+</div>
+
+<!-- ════ EJ 4: 20:20 + 20·20 − 20 = 381 ════ -->
+<div class="card lila">
+  <div class="card-header">
+    <span class="ej-num">Ejercicio 4</span>
+    <span class="ej-expr">20 : 20 + 20 · 20 − 20</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">Signos + y − → <strong>3 términos</strong>.</div>
+        <div class="terminos-box"><div class="t-label">Términos (3)</div>
+          <div class="terminos-lista">
+            <span class="termino-item">20:20</span><span class="termino-item">20·20</span><span class="termino-item">20</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <div class="cascada-svg-col">
+            <svg width="270" height="210" viewBox="0 0 270 210">
+              <text class="nt" x="5"  y="20" font-size="12">20:20</text>
+              <text class="nt" x="72" y="20" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="88" y="20" font-size="12">20·20</text>
+              <text class="nt" x="158" y="20" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="176" y="20" font-size="12">20</text>
+
+              <line class="flecha-abajo" x1="22"  y1="28" x2="22"  y2="56"/><polyline class="flecha-abajo" points="16,50 22,56 28,50"/>
+              <line class="flecha-abajo" x1="108" y1="28" x2="108" y2="56"/><polyline class="flecha-abajo" points="102,50 108,56 114,50"/>
+              <line class="flecha-abajo" x1="182" y1="28" x2="182" y2="56"/><polyline class="flecha-abajo" points="176,50 182,56 188,50"/>
+
+              <!-- Fila 2: 1 + 400 − 20 -->
+              <text class="nt" x="14"  y="73" font-size="13" font-weight="700" fill="#1a3a5c">1</text>
+              <text class="nt" x="32"  y="73" font-size="13" fill="#2980b9">+</text>
+              <text class="nt" x="48"  y="73" font-size="13" font-weight="700" fill="#1a3a5c">400</text>
+              <text class="nt" x="90"  y="73" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="108" y="73" font-size="13" font-weight="700" fill="#1a3a5c">20</text>
+
+              <!-- 1+400 → 401 -->
+              <line class="flecha-abajo" x1="18"  y1="81" x2="58" y2="111"/><line class="flecha-abajo" x1="56" y1="81" x2="58" y2="111"/>
+              <polyline class="flecha-abajo" points="52,105 58,111 64,105"/>
+              <line class="flecha-abajo" x1="114" y1="81" x2="114" y2="109"/><polyline class="flecha-abajo" points="108,103 114,109 120,103"/>
+
+              <!-- Fila 3: 401 − 20 -->
+              <text class="nt" x="38" y="127" font-size="13" font-weight="700" fill="#1a3a5c">401</text>
+              <text class="nt" x="76" y="127" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="94" y="127" font-size="13" font-weight="700" fill="#1a3a5c">20</text>
+
+              <line class="flecha-abajo" x1="52"  y1="135" x2="88" y2="165"/><line class="flecha-abajo" x1="100" y1="135" x2="88" y2="165"/>
+              <polyline class="flecha-abajo" points="82,159 88,165 94,159"/>
+
+              <rect x="58" y="172" width="62" height="28" rx="7" fill="#27ae60"/>
+              <text x="89" y="191" text-anchor="middle" font-size="14" font-weight="800" fill="white" font-family="Fira Mono,monospace">381</text>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$20\div20 + 20\cdot20 - 20$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$1 + 400 - 20$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$401 - 20$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$381$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">381 ✓</span></div>
+  </div>
+</div>
+
+<!-- ════ EJ 5: (105:5−3):2 − 36:6 = 3 ════ -->
+<div class="card rojo">
+  <div class="card-header">
+    <span class="ej-num">Ejercicio 5</span>
+    <span class="ej-expr">(105 : 5 − 3) : 2 − 36 : 6</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">1 signo − fuera del paréntesis → <strong>2 términos</strong>.</div>
+        <div class="terminos-box"><div class="t-label">Términos (2)</div>
+          <div class="terminos-lista">
+            <span class="termino-item">(105:5−3):2</span><span class="termino-item">36:6</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <div class="cascada-svg-col">
+            <svg width="270" height="255" viewBox="0 0 270 255">
+              <text class="nt" x="2"  y="20" font-size="11">(105:5−3):2</text>
+              <text class="nt" x="118" y="20" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="136" y="20" font-size="12">36:6</text>
+
+              <line class="flecha-abajo" x1="52" y1="28" x2="52" y2="56"/><polyline class="flecha-abajo" points="46,50 52,56 58,50"/>
+              <line class="flecha-abajo" x1="152" y1="28" x2="152" y2="56"/><polyline class="flecha-abajo" points="146,50 152,56 158,50"/>
+
+              <text class="nt" x="4"   y="73" font-size="11">(21−3):2</text>
+              <text class="nt" x="96"  y="73" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="122" y="73" font-size="13" font-weight="700" fill="#1a3a5c">6</text>
+
+              <line class="flecha-abajo" x1="48" y1="81" x2="48" y2="109"/><polyline class="flecha-abajo" points="42,103 48,109 54,103"/>
+              <line class="flecha-abajo" x1="128" y1="81" x2="128" y2="109"/><polyline class="flecha-abajo" points="122,103 128,109 134,103"/>
+
+              <text class="nt" x="14" y="126" font-size="12">18:2</text>
+              <text class="nt" x="62" y="126" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="80" y="126" font-size="13" font-weight="700" fill="#1a3a5c">6</text>
+
+              <line class="flecha-abajo" x1="30" y1="134" x2="30" y2="162"/><polyline class="flecha-abajo" points="24,156 30,162 36,156"/>
+              <line class="flecha-abajo" x1="86" y1="134" x2="86" y2="162"/><polyline class="flecha-abajo" points="80,156 86,162 92,156"/>
+
+              <text class="nt" x="18" y="179" font-size="13" font-weight="700" fill="#1a3a5c">9</text>
+              <text class="nt" x="36" y="179" font-size="13" fill="#c0392b">−</text>
+              <text class="nt" x="54" y="179" font-size="13" font-weight="700" fill="#1a3a5c">6</text>
+
+              <line class="flecha-abajo" x1="24" y1="187" x2="52" y2="215"/><line class="flecha-abajo" x1="60" y1="187" x2="52" y2="215"/>
+              <polyline class="flecha-abajo" points="46,209 52,215 58,209"/>
+              <rect x="26" y="222" width="52" height="28" rx="7" fill="#27ae60"/>
+              <text x="52" y="241" text-anchor="middle" font-size="15" font-weight="800" fill="white" font-family="Fira Mono,monospace">3</text>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$(105\div5 - 3)\div2 - 36\div6$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$(21 - 3)\div2 - 6$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$18\div2 - 6$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$9 - 6$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$3$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">3 ✓</span></div>
+  </div>
+</div>
+
+<!-- ════ EJ 6: 150:5:3·4:10·3 = 12 ════ -->
+<div class="card verde">
+  <div class="card-header">
+    <span class="ej-num">Ejercicio 6</span>
+    <span class="ej-expr">150 : 5 : 3 · 4 : 10 · 3</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">No hay + ni − → <strong>1 solo término</strong>, de izquierda a derecha.</div>
+        <div class="terminos-box"><div class="t-label">Término único — cadena ×÷</div>
+          <div class="terminos-lista">
+            <span class="termino-item">150</span><span class="termino-item">÷5</span>
+            <span class="termino-item">÷3</span><span class="termino-item">×4</span>
+            <span class="termino-item">÷10</span><span class="termino-item">×3</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <div class="cascada-svg-col">
+            <svg width="260" height="260" viewBox="0 0 260 260">
+              <text class="nt" x="5" y="20" font-size="12">150 ÷ 5 ÷ 3 · 4 ÷ 10 · 3</text>
+              <line class="flecha-abajo" x1="80" y1="28" x2="80" y2="56"/><polyline class="flecha-abajo" points="74,50 80,56 86,50"/>
+              <text class="nt" x="20" y="73" font-size="12">30 ÷ 3 · 4 ÷ 10 · 3</text>
+              <line class="flecha-abajo" x1="70" y1="81" x2="70" y2="109"/><polyline class="flecha-abajo" points="64,103 70,109 76,103"/>
+              <text class="nt" x="20" y="126" font-size="12">10 · 4 ÷ 10 · 3</text>
+              <line class="flecha-abajo" x1="65" y1="134" x2="65" y2="162"/><polyline class="flecha-abajo" points="59,156 65,162 71,156"/>
+              <text class="nt" x="20" y="179" font-size="12">40 ÷ 10 · 3</text>
+              <line class="flecha-abajo" x1="58" y1="187" x2="58" y2="215"/><polyline class="flecha-abajo" points="52,209 58,215 64,209"/>
+              <text class="nt" x="20" y="232" font-size="12">4 · 3</text>
+              <line class="flecha-abajo" x1="36" y1="240" x2="36" y2="248"/>
+              <rect x="10" y="248" width="52" height="28" rx="7" fill="#27ae60"/>
+              <text x="36" y="267" text-anchor="middle" font-size="15" font-weight="800" fill="white" font-family="Fira Mono,monospace">12</text>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$150\div5\div3\cdot4\div10\cdot3$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$30\div3\cdot4\div10\cdot3$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$10\cdot4\div10\cdot3$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$40\div10\cdot3$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$4\cdot3$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$12$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">12 ✓</span></div>
+  </div>
+</div>
+
+<!-- ════ EJ 7: 54+59−80+19+12−21+4−11 = 36 ════ -->
+<div class="card">
+  <div class="card-header">
+    <span class="ej-num">Ejercicio 7</span>
+    <span class="ej-expr">54 + 59 − 80 + 19 + 12 − 21 + 4 − 11</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">4 signos + y 3 signos − → <strong>8 términos</strong>. Solo sumas y restas: de izquierda a derecha.</div>
+        <div class="terminos-box"><div class="t-label">Términos (8)</div>
+          <div class="terminos-lista">
+            <span class="termino-item">54</span><span class="termino-item">59</span><span class="termino-item">80</span><span class="termino-item">19</span>
+            <span class="termino-item">12</span><span class="termino-item">21</span><span class="termino-item">4</span><span class="termino-item">11</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <div class="cascada-svg-col">
+            <svg width="260" height="300" viewBox="0 0 260 300">
+              <text class="nt" x="2" y="18" font-size="11">54 + 59 − 80 + 19 + 12 − 21 + 4 − 11</text>
+              <line class="flecha-abajo" x1="80" y1="26" x2="80" y2="46"/><polyline class="flecha-abajo" points="74,40 80,46 86,40"/>
+              <text class="nt" x="5" y="63" font-size="11">113 − 80 + 19 + 12 − 21 + 4 − 11</text>
+              <line class="flecha-abajo" x1="75" y1="71" x2="75" y2="91"/><polyline class="flecha-abajo" points="69,85 75,91 81,85"/>
+              <text class="nt" x="15" y="108" font-size="11">33 + 19 + 12 − 21 + 4 − 11</text>
+              <line class="flecha-abajo" x1="68" y1="116" x2="68" y2="136"/><polyline class="flecha-abajo" points="62,130 68,136 74,130"/>
+              <text class="nt" x="20" y="153" font-size="11">52 + 12 − 21 + 4 − 11</text>
+              <line class="flecha-abajo" x1="62" y1="161" x2="62" y2="181"/><polyline class="flecha-abajo" points="56,175 62,181 68,175"/>
+              <text class="nt" x="25" y="198" font-size="11">64 − 21 + 4 − 11</text>
+              <line class="flecha-abajo" x1="55" y1="206" x2="55" y2="226"/><polyline class="flecha-abajo" points="49,220 55,226 61,220"/>
+              <text class="nt" x="30" y="243" font-size="11">43 + 4 − 11</text>
+              <line class="flecha-abajo" x1="48" y1="251" x2="48" y2="265"/><polyline class="flecha-abajo" points="42,259 48,265 54,259"/>
+              <text class="nt" x="30" y="280" font-size="12" font-weight="700" fill="#1a3a5c">47 − 11</text>
+              <line class="flecha-abajo" x1="48" y1="286" x2="48" y2="294"/>
+              <rect x="20" y="294" width="56" height="0" rx="0" fill="none"/>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$54+59-80+19+12-21+4-11$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$113-80+19+12-21+4-11$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$33+19+12-21+4-11$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$52+12-21+4-11$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$64-21+4-11$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$43+4-11$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$47-11$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$36$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">36 ✓</span></div>
+  </div>
+</div>
+
+<!-- ════ EJ 8: 6·7−(24:6+4·3−8)−19 = 15 ════ -->
+<div class="card naranja">
+  <div class="card-header">
+    <span class="ej-num">Ejercicio 8</span>
+    <span class="ej-expr">6·7 − (24:6 + 4·3 − 8) − 19</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">2 signos − fuera del paréntesis → <strong>3 términos</strong>.</div>
+        <div class="terminos-box"><div class="t-label">Términos (3)</div>
+          <div class="terminos-lista">
+            <span class="termino-item">6·7</span><span class="termino-item">(24:6+4·3−8)</span><span class="termino-item">19</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <div class="cascada-svg-col">
+            <svg width="280" height="240" viewBox="0 0 280 240">
+              <text class="nt" x="2"  y="20" font-size="11">6·7 − (24:6+4·3−8) − 19</text>
+              <line class="flecha-abajo" x1="90" y1="28" x2="90" y2="56"/><polyline class="flecha-abajo" points="84,50 90,56 96,50"/>
+              <!-- paso 1: simplificar cada término -->
+              <text class="nt" x="5"  y="73" font-size="11">42 − (4 + 12 − 8) − 19</text>
+              <line class="flecha-abajo" x1="80" y1="81" x2="80" y2="109"/><polyline class="flecha-abajo" points="74,103 80,109 86,103"/>
+              <text class="nt" x="5"  y="126" font-size="11">42 − 8 − 19</text>
+              <line class="flecha-abajo" x1="52" y1="134" x2="52" y2="162"/><polyline class="flecha-abajo" points="46,156 52,162 58,156"/>
+              <text class="nt" x="5"  y="179" font-size="12" font-weight="700" fill="#1a3a5c">34 − 19</text>
+              <line class="flecha-abajo" x1="40" y1="187" x2="40" y2="210"/>
+              <polyline class="flecha-abajo" points="34,204 40,210 46,204"/>
+              <rect x="14" y="216" width="52" height="28" rx="7" fill="#27ae60"/>
+              <text x="40" y="235" text-anchor="middle" font-size="15" font-weight="800" fill="white" font-family="Fira Mono,monospace">15</text>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$6\cdot7-(24\div6+4\cdot3-8)-19$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$42-(4+12-8)-19$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$42-8-19$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$34-19$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$15$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">15 ✓</span></div>
+  </div>
+</div>
+
+<!-- ════ EJ Guía 3 N°1 ════ -->
+<div class="card lila">
+  <div class="card-header">
+    <span class="ej-num">Guía 3 – N°1</span>
+    <span class="ej-expr">28÷4 − 3·2 + (10 − 3·3) + 5</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">Signos −, + y + fuera del paréntesis → <strong>4 términos</strong>.</div>
+        <div class="terminos-box"><div class="t-label">Términos (4)</div>
+          <div class="terminos-lista">
+            <span class="termino-item">28÷4</span><span class="termino-item">3·2</span>
+            <span class="termino-item">(10−3·3)</span><span class="termino-item">5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <div class="cascada-svg-col">
+            <svg width="280" height="245" viewBox="0 0 280 245">
+              <text class="nt" x="2"  y="20" font-size="11">28÷4 − 3·2 + (10−3·3) + 5</text>
+              <line class="flecha-abajo" x1="90" y1="28" x2="90" y2="56"/><polyline class="flecha-abajo" points="84,50 90,56 96,50"/>
+              <text class="nt" x="2"  y="73" font-size="11">7 − 6 + (10 − 9) + 5</text>
+              <line class="flecha-abajo" x1="75" y1="81" x2="75" y2="109"/><polyline class="flecha-abajo" points="69,103 75,109 81,103"/>
+              <text class="nt" x="2"  y="126" font-size="11">7 − 6 + 1 + 5</text>
+              <line class="flecha-abajo" x1="55" y1="134" x2="55" y2="162"/><polyline class="flecha-abajo" points="49,156 55,162 61,156"/>
+              <text class="nt" x="5"  y="179" font-size="12" font-weight="700" fill="#1a3a5c">1 + 1 + 5</text>
+              <line class="flecha-abajo" x1="48" y1="187" x2="48" y2="210"/><polyline class="flecha-abajo" points="42,204 48,210 54,204"/>
+              <text class="nt" x="18" y="228" font-size="12" font-weight="700" fill="#1a3a5c">2 + 5</text>
+              <line class="flecha-abajo" x1="38" y1="234" x2="38" y2="242"/>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$28\div4 - 3\cdot2 + (10-3\cdot3)+5$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$7 - 6 + (10-9) + 5$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$7 - 6 + 1 + 5$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$1 + 1 + 5$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$2 + 5$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$7$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div>
+      <span class="incorrecto">34 ✗</span> — Correcto: <span class="correcto">7 ✓</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════ EJ Guía 3 N°5 ════ -->
+<div class="card rojo">
+  <div class="card-header">
+    <span class="ej-num">Guía 3 – N°5</span>
+    <span class="ej-expr">{25 − 6·2 − (45÷9 − 27÷9) − 1} · 6</span>
+  </div>
+  <div class="card-body">
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Identificar los términos</div>
+        <div class="paso-desc">Todo el bloque entre llaves se multiplica por 6. Dentro hay 3 signos − → <strong>4 sub-términos</strong>.</div>
+        <div class="terminos-box"><div class="t-label">Sub-términos dentro {} (4)</div>
+          <div class="terminos-lista">
+            <span class="termino-item">25</span><span class="termino-item">6·2</span>
+            <span class="termino-item">(45÷9−27÷9)</span><span class="termino-item">1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-contenido">
+        <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+        <div class="cascada-wrap">
+          <div class="cascada-svg-col">
+            <svg width="280" height="250" viewBox="0 0 280 250">
+              <text class="nt" x="2"  y="18" font-size="10">{25−6·2−(45÷9−27÷9)−1}·6</text>
+              <line class="flecha-abajo" x1="90" y1="26" x2="90" y2="50"/><polyline class="flecha-abajo" points="84,44 90,50 96,44"/>
+              <text class="nt" x="2"  y="67" font-size="10">{25 − 12 − (5 − 3) − 1} · 6</text>
+              <line class="flecha-abajo" x1="85" y1="75" x2="85" y2="99"/><polyline class="flecha-abajo" points="79,93 85,99 91,93"/>
+              <text class="nt" x="2"  y="116" font-size="10">{25 − 12 − 2 − 1} · 6</text>
+              <line class="flecha-abajo" x1="75" y1="124" x2="75" y2="148"/><polyline class="flecha-abajo" points="69,142 75,148 81,142"/>
+              <text class="nt" x="2"  y="165" font-size="11">10 · 6</text>
+              <line class="flecha-abajo" x1="38" y1="173" x2="38" y2="196"/><polyline class="flecha-abajo" points="32,190 38,196 44,190"/>
+              <rect x="10" y="202" width="56" height="28" rx="7" fill="#27ae60"/>
+              <text x="38" y="221" text-anchor="middle" font-size="15" font-weight="800" fill="white" font-family="Fira Mono,monospace">60</text>
+            </svg>
+          </div>
+          <div class="cascada-sep"></div>
+          <div class="cascada-igualdades">
+            <div class="ci-label">📐 Desarrollo</div>
+            <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$\{25-6\cdot2-(45\div9-27\div9)-1\}\cdot6$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$\{25-12-(5-3)-1\}\cdot6$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$\{25-12-2-1\}\cdot6$</span></div>
+            <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$10\cdot6$</span></div>
+            <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$60$</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">60 ✓</span></div>
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ══════ SECCIÓN II – PROBLEMAS ══════ -->
+<div class="seccion-titulo">
+  <div class="num">II</div>
+  <h2>Resolución de Problemas</h2>
+</div>
+
+<!-- P1 -->
+<div class="card verde">
+  <div class="card-header"><span class="ej-num">Problema 1</span><span class="ej-expr">División con resto</span></div>
+  <div class="card-body">
+    <div class="problema-enunciado">Cociente = <strong>12</strong>, dividendo = <strong>1.550</strong>. ¿Divisor y resto?</div>
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="200" height="110" viewBox="0 0 200 110">
+            <text class="nt" x="5" y="18" font-size="11">1550 ÷ 12 = ?</text>
+            <line class="flecha-abajo" x1="60" y1="26" x2="60" y2="50"/><polyline class="flecha-abajo" points="54,44 60,50 66,44"/>
+            <text class="nt" x="5" y="67" font-size="11">Cociente = 129</text>
+            <line class="flecha-abajo" x1="60" y1="75" x2="60" y2="99"/><polyline class="flecha-abajo" points="54,93 60,99 66,93"/>
+            <text class="nt" x="5" y="110" font-size="11">129×12 = 1548 → Resto = 2</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$1550 \div 12 = 129$ (cociente)</span></div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$129 \times 12 = 1548$</span></div>
+          <div class="ci-linea final"><span class="ci-eq"></span><span class="ci-expr">Divisor $= \mathbf{129}$, Resto $= \mathbf{2}$</span></div>
+        </div>
+      </div>
+    </div></div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">Resto = 2, Divisor = 129 ✓</span></div>
+  </div>
+</div>
+
+<!-- P2 -->
+<div class="card naranja">
+  <div class="card-header"><span class="ej-num">Problema 2</span><span class="ej-expr">Triple de 36, triple de 9, cuarta parte de 48</span></div>
+  <div class="card-body">
+    <div class="problema-enunciado">Al <strong>triple de 36</strong> se le quita el <strong>triple de 9</strong>, se agrega la <strong>cuarta parte de 48</strong>, y se divide por 3.</div>
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="240" height="160" viewBox="0 0 240 160">
+            <text class="nt" x="2" y="18" font-size="11">(3×36 − 3×9 + 48÷4) ÷ 3</text>
+            <line class="flecha-abajo" x1="80" y1="26" x2="80" y2="50"/><polyline class="flecha-abajo" points="74,44 80,50 86,44"/>
+            <text class="nt" x="2" y="67" font-size="11">(108 − 27 + 12) ÷ 3</text>
+            <line class="flecha-abajo" x1="70" y1="75" x2="70" y2="99"/><polyline class="flecha-abajo" points="64,93 70,99 76,93"/>
+            <text class="nt" x="2" y="116" font-size="12" font-weight="700" fill="#1a3a5c">93 ÷ 3</text>
+            <line class="flecha-abajo" x1="38" y1="124" x2="38" y2="137"/>
+            <polyline class="flecha-abajo" points="32,131 38,137 44,131"/>
+            <rect x="10" y="140" width="56" height="22" rx="6" fill="#27ae60"/>
+            <text x="38" y="156" text-anchor="middle" font-size="14" font-weight="800" fill="white" font-family="Fira Mono,monospace">31</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$(3\times36-3\times9+48\div4)\div3$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$(108-27+12)\div3$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$93\div3$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$31$</span></div>
+        </div>
+      </div>
+    </div></div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">31 ✓</span></div>
+  </div>
+</div>
+
+<!-- P3–P6: formato compacto -->
+<div class="card lila">
+  <div class="card-header"><span class="ej-num">Problema 3</span><span class="ej-expr">Cajita 80 huevitos – 1.500 g</span></div>
+  <div class="card-body">
+    <div class="problema-enunciado">Cajita con <strong>80 huevitos</strong>, cada uno pesa <strong>15 g</strong>. Total: <strong>1.500 g</strong>. ¿Peso caja vacía?</div>
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="200" height="105" viewBox="0 0 200 105">
+            <text class="nt" x="2" y="18" font-size="11">1500 − 80×15</text>
+            <line class="flecha-abajo" x1="55" y1="26" x2="55" y2="50"/><polyline class="flecha-abajo" points="49,44 55,50 61,44"/>
+            <text class="nt" x="2" y="67" font-size="11">1500 − 1200</text>
+            <line class="flecha-abajo" x1="50" y1="75" x2="50" y2="88"/>
+            <polyline class="flecha-abajo" points="44,82 50,88 56,82"/>
+            <rect x="14" y="92" width="72" height="22" rx="6" fill="#27ae60"/>
+            <text x="50" y="108" text-anchor="middle" font-size="13" font-weight="800" fill="white" font-family="Fira Mono,monospace">300 g</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$1500 - 80\times15$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$1500 - 1200$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$300\ \text{g}$</span></div>
+        </div>
+      </div>
+    </div></div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">300 g ✓</span></div>
+  </div>
+</div>
+
+<div class="card verde">
+  <div class="card-header"><span class="ej-num">Problema 4</span><span class="ej-expr">Doble de 14, triple de 5, cuarta parte de 24</span></div>
+  <div class="card-body">
+    <div class="problema-enunciado">Al <strong>doble de 14</strong> se le resta el <strong>triple de 5</strong> y se agrega la <strong>cuarta parte de 24</strong>.</div>
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="200" height="120" viewBox="0 0 200 120">
+            <text class="nt" x="2" y="18" font-size="11">2×14 − 3×5 + 24÷4</text>
+            <line class="flecha-abajo" x1="65" y1="26" x2="65" y2="50"/><polyline class="flecha-abajo" points="59,44 65,50 71,44"/>
+            <text class="nt" x="2" y="67" font-size="12" font-weight="700" fill="#1a3a5c">28 − 15 + 6</text>
+            <line class="flecha-abajo" x1="55" y1="75" x2="55" y2="98"/><polyline class="flecha-abajo" points="49,92 55,98 61,92"/>
+            <rect x="14" y="104" width="56" height="22" rx="6" fill="#27ae60"/>
+            <text x="42" y="120" text-anchor="middle" font-size="14" font-weight="800" fill="white" font-family="Fira Mono,monospace">19</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$2\times14 - 3\times5 + 24\div4$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$28 - 15 + 6$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$19$</span></div>
+        </div>
+      </div>
+    </div></div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">19 ✓</span></div>
+  </div>
+</div>
+
+<div class="card rojo">
+  <div class="card-header"><span class="ej-num">Problema 5</span><span class="ej-expr">Cajita 35 huevitos – 1.435 g</span></div>
+  <div class="card-body">
+    <div class="problema-enunciado">Caja con <strong>35 huevitos</strong>, cada uno pesa <strong>30 g</strong>. Total: <strong>1.435 g</strong>. ¿Peso caja vacía?</div>
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="200" height="105" viewBox="0 0 200 105">
+            <text class="nt" x="2" y="18" font-size="11">1435 − 35×30</text>
+            <line class="flecha-abajo" x1="55" y1="26" x2="55" y2="50"/><polyline class="flecha-abajo" points="49,44 55,50 61,44"/>
+            <text class="nt" x="2" y="67" font-size="11">1435 − 1050</text>
+            <line class="flecha-abajo" x1="50" y1="75" x2="50" y2="88"/><polyline class="flecha-abajo" points="44,82 50,88 56,82"/>
+            <rect x="10" y="92" width="72" height="22" rx="6" fill="#27ae60"/>
+            <text x="46" y="108" text-anchor="middle" font-size="13" font-weight="800" fill="white" font-family="Fira Mono,monospace">385 g</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$1435 - 35\times30$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$1435 - 1050$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$385\ \text{g}$</span></div>
+        </div>
+      </div>
+    </div></div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">385 g ✓</span></div>
+  </div>
+</div>
+
+<div class="card naranja">
+  <div class="card-header"><span class="ej-num">Problema 6</span><span class="ej-expr">Arturo en la librería</span></div>
+  <div class="card-body">
+    <div class="problema-enunciado">Arturo compra <strong>7 cuadernos a $1.850</strong>, <strong>5 gomas a $315</strong> y <strong>8 lápices a $245</strong>. ¿Total?</div>
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="240" height="150" viewBox="0 0 240 150">
+            <text class="nt" x="2" y="18" font-size="10">7×1850 + 5×315 + 8×245</text>
+            <line class="flecha-abajo" x1="80" y1="26" x2="80" y2="50"/><polyline class="flecha-abajo" points="74,44 80,50 86,44"/>
+            <text class="nt" x="2" y="67" font-size="10">12950 + 1575 + 1960</text>
+            <line class="flecha-abajo" x1="70" y1="75" x2="70" y2="99"/><polyline class="flecha-abajo" points="64,93 70,99 76,93"/>
+            <text class="nt" x="2" y="116" font-size="11" font-weight="700" fill="#1a3a5c">14525 + 1960</text>
+            <line class="flecha-abajo" x1="60" y1="124" x2="60" y2="134"/><polyline class="flecha-abajo" points="54,128 60,134 66,128"/>
+            <rect x="10" y="136" width="96" height="22" rx="6" fill="#27ae60"/>
+            <text x="58" y="152" text-anchor="middle" font-size="12" font-weight="800" fill="white" font-family="Fira Mono,monospace">$ 16.485</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$7\times1850+5\times315+8\times245$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$12950+1575+1960$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$14525+1960$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$\$16.485$</span></div>
+        </div>
+      </div>
+    </div></div>
+    <div class="alumno-box"><div class="al-label">Respuesta del alumno</div><span class="correcto">$16.485 ✓</span></div>
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ══════ SECCIÓN III ══════ -->
+<div class="seccion-titulo">
+  <div class="num">III</div>
+  <h2>Ejercicios Propuestos</h2>
+</div>
+
+<div class="card verde">
+  <div class="card-header"><span class="ej-num">Propuesto A</span><span class="ej-expr">(72÷8 + 3·4)·2 − 100÷5 + 7</span></div>
+  <div class="card-body">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="paso-titulo">Identificar los términos</div>
+      <div class="paso-desc">Signos − y + fuera del paréntesis → <strong>3 términos</strong>.</div>
+      <div class="terminos-box"><div class="t-label">Términos (3)</div>
+        <div class="terminos-lista">
+          <span class="termino-item">(72÷8+3·4)·2</span><span class="termino-item">100÷5</span><span class="termino-item">7</span>
+        </div>
+      </div>
+    </div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-contenido">
+      <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="260" height="215" viewBox="0 0 260 215">
+            <text class="nt" x="2" y="18" font-size="10">(72÷8 + 3·4)·2 − 100÷5 + 7</text>
+            <line class="flecha-abajo" x1="85" y1="26" x2="85" y2="50"/><polyline class="flecha-abajo" points="79,44 85,50 91,44"/>
+            <text class="nt" x="2" y="67" font-size="10">(9 + 12)·2 − 20 + 7</text>
+            <line class="flecha-abajo" x1="75" y1="75" x2="75" y2="99"/><polyline class="flecha-abajo" points="69,93 75,99 81,93"/>
+            <text class="nt" x="2" y="116" font-size="11">21·2 − 20 + 7</text>
+            <line class="flecha-abajo" x1="60" y1="124" x2="60" y2="148"/><polyline class="flecha-abajo" points="54,142 60,148 66,142"/>
+            <text class="nt" x="2" y="165" font-size="11">42 − 20 + 7</text>
+            <line class="flecha-abajo" x1="52" y1="173" x2="52" y2="197"/><polyline class="flecha-abajo" points="46,191 52,197 58,191"/>
+            <text class="nt" x="2" y="208" font-size="11" font-weight="700" fill="#1a3a5c">22 + 7</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$(72\div8+3\cdot4)\cdot2-100\div5+7$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$(9+12)\cdot2-20+7$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$21\cdot2-20+7$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$42-20+7$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$22+7$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$29$</span></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<div class="card lila">
+  <div class="card-header"><span class="ej-num">Propuesto B</span><span class="ej-expr">{48÷(2+4) + 5·3 − 10}÷5 + 6·2</span></div>
+  <div class="card-body">
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="paso-titulo">Identificar los términos</div>
+      <div class="paso-desc">1 signo + fuera de las llaves → <strong>2 términos</strong>.</div>
+      <div class="terminos-box"><div class="t-label">Términos (2)</div>
+        <div class="terminos-lista">
+          <span class="termino-item">{...}÷5</span><span class="termino-item">6·2</span>
+        </div>
+      </div>
+    </div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-contenido">
+      <div class="paso-titulo">Árbol en cascada y desarrollo</div>
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="250" height="215" viewBox="0 0 250 215">
+            <text class="nt" x="2" y="18" font-size="10">{48÷(2+4) + 5·3 − 10}÷5 + 6·2</text>
+            <line class="flecha-abajo" x1="80" y1="26" x2="80" y2="50"/><polyline class="flecha-abajo" points="74,44 80,50 86,44"/>
+            <text class="nt" x="2" y="67" font-size="10">{48÷6 + 15 − 10}÷5 + 12</text>
+            <line class="flecha-abajo" x1="75" y1="75" x2="75" y2="99"/><polyline class="flecha-abajo" points="69,93 75,99 81,93"/>
+            <text class="nt" x="2" y="116" font-size="10">{8 + 15 − 10}÷5 + 12</text>
+            <line class="flecha-abajo" x1="70" y1="124" x2="70" y2="148"/><polyline class="flecha-abajo" points="64,142 70,148 76,142"/>
+            <text class="nt" x="2" y="165" font-size="10">13÷5 + 12</text>
+            <line class="flecha-abajo" x1="50" y1="173" x2="50" y2="197"/><polyline class="flecha-abajo" points="44,191 50,197 56,191"/>
+            <text class="nt" x="2" y="210" font-size="11" font-weight="700" fill="#1a3a5c">2 + 12 (en ℕ)</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$\{48\div(2+4)+5\cdot3-10\}\div5+6\cdot2$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$\{48\div6+15-10\}\div5+12$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$\{8+15-10\}\div5+12$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$13\div5+12$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$2+12$ (en $\mathbb{N}$)</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$14$</span></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ══════ SECCIÓN IV ══════ -->
+<div class="seccion-titulo">
+  <div class="num">IV</div>
+  <h2>Problemas Propuestos</h2>
+</div>
+
+<div class="card rojo">
+  <div class="card-header"><span class="ej-num">P1 — Lenguaje Numérico</span><span class="ej-expr">Resultado = 4</span></div>
+  <div class="card-body">
+    <div class="problema-enunciado"><strong>«Al triple de 6 se le resta el doble de 7, el resultado se divide por 2 y se agregan 2»</strong></div>
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="220" height="160" viewBox="0 0 220 160">
+            <text class="nt" x="2" y="18" font-size="11">(3×6 − 2×7) ÷ 2 + 2</text>
+            <line class="flecha-abajo" x1="70" y1="26" x2="70" y2="50"/><polyline class="flecha-abajo" points="64,44 70,50 76,44"/>
+            <text class="nt" x="2" y="67" font-size="11">(18 − 14) ÷ 2 + 2</text>
+            <line class="flecha-abajo" x1="62" y1="75" x2="62" y2="99"/><polyline class="flecha-abajo" points="56,93 62,99 68,93"/>
+            <text class="nt" x="2" y="116" font-size="12" font-weight="700" fill="#1a3a5c">4 ÷ 2 + 2</text>
+            <line class="flecha-abajo" x1="42" y1="124" x2="42" y2="140"/><polyline class="flecha-abajo" points="36,134 42,140 48,134"/>
+            <rect x="14" y="144" width="56" height="22" rx="6" fill="#27ae60"/>
+            <text x="42" y="160" text-anchor="middle" font-size="14" font-weight="800" fill="white" font-family="Fira Mono,monospace">4</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$(3\times6 - 2\times7)\div2 + 2$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$(18-14)\div2+2$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$4\div2+2$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$2+2$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$4$</span></div>
+        </div>
+      </div>
+      <div class="prop-espacio">Escribe tu propia traducción aquí...</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="card verde">
+  <div class="card-header"><span class="ej-num">P2 — Contextualizado</span><span class="ej-expr">La feria del colegio</span></div>
+  <div class="card-body">
+    <div class="problema-enunciado">7°A vendió <strong>24 empanadas a $350</strong>. Compraron <strong>3 paquetes de servilletas a $180</strong>. Las ganancias se dividieron en <strong>4 partes iguales</strong>. ¿Cuánto recibe cada grupo?</div>
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="paso-titulo">Identificar los términos</div>
+      <div class="paso-desc">1 signo − dentro del paréntesis → <strong>2 sub-términos</strong>.</div>
+      <div class="terminos-box"><div class="t-label">Sub-términos (2)</div>
+        <div class="terminos-lista"><span class="termino-item">24×350</span><span class="termino-item">3×180</span></div>
+      </div>
+    </div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-contenido">
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="240" height="155" viewBox="0 0 240 155">
+            <text class="nt" x="2" y="18" font-size="10">(24×350 − 3×180) ÷ 4</text>
+            <line class="flecha-abajo" x1="75" y1="26" x2="75" y2="50"/><polyline class="flecha-abajo" points="69,44 75,50 81,44"/>
+            <text class="nt" x="2" y="67" font-size="11">(8400 − 540) ÷ 4</text>
+            <line class="flecha-abajo" x1="65" y1="75" x2="65" y2="99"/><polyline class="flecha-abajo" points="59,93 65,99 71,93"/>
+            <text class="nt" x="2" y="116" font-size="12" font-weight="700" fill="#1a3a5c">7860 ÷ 4</text>
+            <line class="flecha-abajo" x1="46" y1="124" x2="46" y2="136"/><polyline class="flecha-abajo" points="40,130 46,136 52,130"/>
+            <rect x="4" y="138" width="86" height="22" rx="6" fill="#27ae60"/>
+            <text x="47" y="154" text-anchor="middle" font-size="12" font-weight="800" fill="white" font-family="Fira Mono,monospace">$ 1.965</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$(24\times350-3\times180)\div4$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$(8400-540)\div4$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$7860\div4$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$\$1.965$</span></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<div class="card naranja">
+  <div class="card-header"><span class="ej-num">P3 — Contextualizado</span><span class="ej-expr">El huerto de la abuela</span></div>
+  <div class="card-body">
+    <div class="problema-enunciado">Tomates: <strong>3 hileras × 15 plantas × 6 tomates</strong>. Lechugas: <strong>2 hileras × 20 plantas × 4 lechugas</strong>. Se reparte entre <strong>3 nietos</strong>.</div>
+    <div class="paso"><div class="paso-num">1</div><div class="paso-contenido">
+      <div class="paso-titulo">Identificar los términos</div>
+      <div class="paso-desc">1 signo + dentro del paréntesis → <strong>2 sub-términos</strong>.</div>
+      <div class="terminos-box"><div class="t-label">Sub-términos (2)</div>
+        <div class="terminos-lista"><span class="termino-item">3·15·6</span><span class="termino-item">2·20·4</span></div>
+      </div>
+    </div></div>
+    <div class="paso"><div class="paso-num">2</div><div class="paso-contenido">
+      <div class="cascada-wrap">
+        <div class="cascada-svg-col">
+          <svg width="230" height="155" viewBox="0 0 230 155">
+            <text class="nt" x="2" y="18" font-size="10">(3×15×6 + 2×20×4) ÷ 3</text>
+            <line class="flecha-abajo" x1="75" y1="26" x2="75" y2="50"/><polyline class="flecha-abajo" points="69,44 75,50 81,44"/>
+            <text class="nt" x="2" y="67" font-size="11">(270 + 160) ÷ 3</text>
+            <line class="flecha-abajo" x1="60" y1="75" x2="60" y2="99"/><polyline class="flecha-abajo" points="54,93 60,99 66,93"/>
+            <text class="nt" x="2" y="116" font-size="12" font-weight="700" fill="#1a3a5c">430 ÷ 3</text>
+            <line class="flecha-abajo" x1="40" y1="124" x2="40" y2="136"/><polyline class="flecha-abajo" points="34,130 40,136 46,130"/>
+            <rect x="4" y="138" width="96" height="22" rx="6" fill="#27ae60"/>
+            <text x="52" y="154" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="Fira Mono,monospace">143 (r. 1)</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">📐 Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$(3\times15\times6+2\times20\times4)\div3$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$(270+160)\div3$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$430\div3$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$143$ (resto 1)</span></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- RESUMEN -->
+<div class="seccion-titulo">
+  <div class="num">★</div>
+  <h2>Reglas de Orden de Operatoria</h2>
+</div>
+<div class="card" style="border-color:var(--azul);">
+  <div class="card-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;text-align:center;">
+      <div style="background:#e8f4fd;border-radius:12px;padding:18px;">
+        <div style="font-size:1.8rem;margin-bottom:8px;">①</div>
+        <div style="font-weight:800;color:var(--azul);margin-bottom:6px;">Paréntesis</div>
+        <div style="font-size:.85rem;color:#555;">Interior → exterior: $(\;)\to[\;]\to\{\;\}$</div>
+      </div>
+      <div style="background:#eafaf1;border-radius:12px;padding:18px;">
+        <div style="font-size:1.8rem;margin-bottom:8px;">②</div>
+        <div style="font-weight:800;color:var(--verde);margin-bottom:6px;">× y ÷</div>
+        <div style="font-size:.85rem;color:#555;">De izquierda a derecha.</div>
+      </div>
+      <div style="background:#fef9e7;border-radius:12px;padding:18px;">
+        <div style="font-size:1.8rem;margin-bottom:8px;">③</div>
+        <div style="font-weight:800;color:var(--naranja);margin-bottom:6px;">+ y −</div>
+        <div style="font-size:.85rem;color:#555;">De izquierda a derecha.</div>
+      </div>
+    </div>
+    <div style="margin-top:18px;background:#f4f6fb;border-radius:10px;padding:14px;font-size:.9rem;color:#444;">
+      <strong>🔑 Truco:</strong> Cuenta los <strong>+</strong> y <strong>−</strong> fuera de paréntesis. N° de términos = ese conteo <strong>+ 1</strong>.<br>
+      Ej: $3 - 5\div5\cdot1 + 6\cdot3$ → 2 signos → <strong>3 términos</strong>: $\{3\}$, $\{5\div5\cdot1\}$, $\{6\cdot3\}$
+    </div>
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ══════════════════════════════════════
+     SECCIÓN V – EJERCICIOS ESTILO PRUEBA
+     ══════════════════════════════════════ -->
+<div class="seccion-titulo">
+  <div class="num">V</div>
+  <h2>Resuelve ordenadamente cada uno de los siguientes ejercicios</h2>
+</div>
+
+<div style="background:#fff;border-radius:14px;box-shadow:var(--sombra);overflow:hidden;margin-bottom:28px;">
+  <div style="background:#1a3a5c;color:#fff;padding:12px 20px;font-size:.95rem;font-weight:800;letter-spacing:.3px;">
+    I) Resuelve ordenadamente cada uno de los siguientes ejercicios:
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;border:2px solid #c8d8e8;">
+
+    <!-- celda 1 -->
+    <div style="border-right:1.5px solid #c8d8e8;border-bottom:1.5px solid #c8d8e8;padding:18px 20px;background:#f7f9fc;">
+      <div style="font-size:.93rem;font-weight:800;margin-bottom:12px;color:#1a3a5c;"><strong>1)</strong> $56 - 18 + 7 - 12 + 25 =$</div>
+      <div class="cascada-wrap" style="background:transparent;border:none;padding:0;margin:0;">
+        <div class="cascada-svg-col">
+          <svg width="210" height="195" viewBox="0 0 210 195">
+            <text class="nt" x="2" y="16" font-size="11">56 − 18 + 7 − 12 + 25</text>
+            <line class="flecha-abajo" x1="75" y1="22" x2="75" y2="42"/><polyline class="flecha-abajo" points="69,36 75,42 81,36"/>
+            <text class="nt" x="2" y="58" font-size="11">38 + 7 − 12 + 25</text>
+            <line class="flecha-abajo" x1="62" y1="64" x2="62" y2="84"/><polyline class="flecha-abajo" points="56,78 62,84 68,78"/>
+            <text class="nt" x="2" y="100" font-size="11">45 − 12 + 25</text>
+            <line class="flecha-abajo" x1="52" y1="106" x2="52" y2="126"/><polyline class="flecha-abajo" points="46,120 52,126 58,120"/>
+            <text class="nt" x="2" y="142" font-size="11">33 + 25</text>
+            <line class="flecha-abajo" x1="36" y1="148" x2="36" y2="162"/><polyline class="flecha-abajo" points="30,156 36,162 42,156"/>
+            <rect x="6" y="166" width="60" height="22" rx="6" fill="#27ae60"/>
+            <text x="36" y="182" text-anchor="middle" font-size="13" font-weight="800" fill="white" font-family="Fira Mono,monospace">58</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$56-18+7-12+25$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$38+7-12+25$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$45-12+25$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$33+25$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$58$</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- celda 2 -->
+    <div style="border-bottom:1.5px solid #c8d8e8;padding:18px 20px;background:#f7f9fc;">
+      <div style="font-size:.93rem;font-weight:800;margin-bottom:12px;color:#1a3a5c;"><strong>2)</strong> $72 : 6 + 4 \cdot 3 + 5 \cdot 2 =$</div>
+      <div class="cascada-wrap" style="background:transparent;border:none;padding:0;margin:0;">
+        <div class="cascada-svg-col">
+          <svg width="200" height="155" viewBox="0 0 200 155">
+            <text class="nt" x="2" y="16" font-size="11">72:6 + 4·3 + 5·2</text>
+            <line class="flecha-abajo" x1="65" y1="22" x2="65" y2="42"/><polyline class="flecha-abajo" points="59,36 65,42 71,36"/>
+            <text class="nt" x="2" y="58" font-size="11">12 + 12 + 10</text>
+            <line class="flecha-abajo" x1="52" y1="64" x2="52" y2="84"/><polyline class="flecha-abajo" points="46,78 52,84 58,78"/>
+            <text class="nt" x="2" y="100" font-size="11">24 + 10</text>
+            <line class="flecha-abajo" x1="36" y1="106" x2="36" y2="122"/><polyline class="flecha-abajo" points="30,116 36,122 42,116"/>
+            <rect x="6" y="126" width="60" height="22" rx="6" fill="#27ae60"/>
+            <text x="36" y="142" text-anchor="middle" font-size="13" font-weight="800" fill="white" font-family="Fira Mono,monospace">34</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$72\div6+4\cdot3+5\cdot2$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$12+12+10$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$24+10$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$34$</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- celda 3 -->
+    <div style="border-right:1.5px solid #c8d8e8;padding:18px 20px;background:#f7f9fc;">
+      <div style="font-size:.93rem;font-weight:800;margin-bottom:12px;color:#1a3a5c;"><strong>3)</strong> $(90 - 6 \cdot 5) : 3 + 48 : 4 =$</div>
+      <div class="cascada-wrap" style="background:transparent;border:none;padding:0;margin:0;">
+        <div class="cascada-svg-col">
+          <svg width="215" height="195" viewBox="0 0 215 195">
+            <text class="nt" x="2" y="16" font-size="11">(90 − 6·5) : 3 + 48:4</text>
+            <line class="flecha-abajo" x1="78" y1="22" x2="78" y2="42"/><polyline class="flecha-abajo" points="72,36 78,42 84,36"/>
+            <text class="nt" x="2" y="58" font-size="11">(90 − 30) : 3 + 12</text>
+            <line class="flecha-abajo" x1="70" y1="64" x2="70" y2="84"/><polyline class="flecha-abajo" points="64,78 70,84 76,78"/>
+            <text class="nt" x="2" y="100" font-size="11">60 : 3 + 12</text>
+            <line class="flecha-abajo" x1="52" y1="106" x2="52" y2="126"/><polyline class="flecha-abajo" points="46,120 52,126 58,120"/>
+            <text class="nt" x="2" y="142" font-size="11">20 + 12</text>
+            <line class="flecha-abajo" x1="36" y1="148" x2="36" y2="162"/><polyline class="flecha-abajo" points="30,156 36,162 42,156"/>
+            <rect x="6" y="166" width="60" height="22" rx="6" fill="#27ae60"/>
+            <text x="36" y="182" text-anchor="middle" font-size="13" font-weight="800" fill="white" font-family="Fira Mono,monospace">32</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$(90-6\cdot5)\div3+48\div4$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$(90-30)\div3+12$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$60\div3+12$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$20+12$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$32$</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- celda 4 -->
+    <div style="padding:18px 20px;background:#f7f9fc;">
+      <div style="font-size:.93rem;font-weight:800;margin-bottom:12px;color:#1a3a5c;"><strong>4)</strong> $30 : 5 + 15 \cdot 4 - 10 =$</div>
+      <div class="cascada-wrap" style="background:transparent;border:none;padding:0;margin:0;">
+        <div class="cascada-svg-col">
+          <svg width="200" height="165" viewBox="0 0 200 165">
+            <text class="nt" x="2" y="16" font-size="11">30:5 + 15·4 − 10</text>
+            <line class="flecha-abajo" x1="65" y1="22" x2="65" y2="42"/><polyline class="flecha-abajo" points="59,36 65,42 71,36"/>
+            <text class="nt" x="2" y="58" font-size="11">6 + 60 − 10</text>
+            <line class="flecha-abajo" x1="52" y1="64" x2="52" y2="84"/><polyline class="flecha-abajo" points="46,78 52,84 58,78"/>
+            <text class="nt" x="2" y="100" font-size="11">66 − 10</text>
+            <line class="flecha-abajo" x1="38" y1="106" x2="38" y2="122"/><polyline class="flecha-abajo" points="32,116 38,122 44,116"/>
+            <rect x="6" y="126" width="60" height="22" rx="6" fill="#27ae60"/>
+            <text x="36" y="142" text-anchor="middle" font-size="13" font-weight="800" fill="white" font-family="Fira Mono,monospace">56</text>
+          </svg>
+        </div>
+        <div class="cascada-sep"></div>
+        <div class="cascada-igualdades">
+          <div class="ci-label">Desarrollo</div>
+          <div class="ci-linea"><span class="ci-eq"></span><span class="ci-expr">$30\div5+15\cdot4-10$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$6+60-10$</span></div>
+          <div class="ci-linea"><span class="ci-eq">=</span><span class="ci-expr">$66-10$</span></div>
+          <div class="ci-linea final"><span class="ci-eq">=</span><span class="ci-expr">$56$</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ══════════════════════════════
+     SECCIÓN VI – PROBLEMAS PRUEBA
+     ══════════════════════════════ -->
+<div class="seccion-titulo">
+  <div class="num">VI</div>
+  <h2>Resuelve los siguientes problemas</h2>
+</div>
+
+<div style="background:#fff;border-radius:14px;box-shadow:var(--sombra);overflow:hidden;margin-bottom:28px;">
+  <div style="background:#1a3a5c;color:#fff;padding:12px 20px;font-size:.95rem;font-weight:800;letter-spacing:.3px;">
+    II) Resuelve los siguientes problemas:
+  </div>
+
+  <!-- ── Problema 1 ── -->
+  <div style="border-bottom:1.5px solid #c8d8e8;padding:18px 24px 20px;background:#f7f9fc;">
+    <p style="font-size:.93rem;line-height:1.7;margin-bottom:14px;">
+      <strong>1.</strong> Una bicicleta recorre <strong>480 km</strong> utilizando <strong>12 litros</strong> de combustible.<br>
+      ¿Cuál es su rendimiento (km por litro)?
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div style="background:#e8f4fd;border-radius:10px;padding:11px 13px;border-top:3px solid #2980b9;">
+        <div style="font-size:.7rem;font-weight:800;color:#2980b9;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">① Datos</div>
+        <div style="font-size:.84rem;line-height:1.65;">Distancia: $480$ km<br>Combustible: $12$ L</div>
+      </div>
+      <div style="background:#fef9e7;border-radius:10px;padding:11px 13px;border-top:3px solid #e67e22;">
+        <div style="font-size:.7rem;font-weight:800;color:#e67e22;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">② Estrategia</div>
+        <div style="font-size:.84rem;line-height:1.65;">Rendimiento $=$ distancia $\div$ litros<br>$480 \div 12$</div>
+      </div>
+      <div style="background:#f4f0fb;border-radius:10px;padding:11px 13px;border-top:3px solid #8e44ad;">
+        <div style="font-size:.7rem;font-weight:800;color:#8e44ad;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">③ Desarrollo</div>
+        <div class="cascada-wrap" style="background:transparent;border:none;padding:0;margin:0;">
+          <div class="cascada-svg-col">
+            <svg width="105" height="70" viewBox="0 0 105 70">
+              <text class="nt" x="1" y="14" font-size="10">480 ÷ 12</text>
+              <line class="flecha-abajo" x1="38" y1="20" x2="38" y2="34"/><polyline class="flecha-abajo" points="32,28 38,34 44,28"/>
+              <rect x="2" y="38" width="66" height="20" rx="5" fill="#27ae60"/>
+              <text x="35" y="53" text-anchor="middle" font-size="12" font-weight="800" fill="white" font-family="Fira Mono,monospace">40 km/L</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div style="background:#eafaf1;border-radius:10px;padding:11px 13px;border-top:3px solid #27ae60;">
+        <div style="font-size:.7rem;font-weight:800;color:#27ae60;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">④ Respuesta</div>
+        <div style="font-size:.84rem;line-height:1.65;">La bicicleta rinde <strong>40 km</strong> por litro.</div>
+      </div>
+    </div>
+    <div style="font-size:.88rem;border-top:1px solid #d0e4f7;padding-top:8px;">
+      <strong>Respuesta:</strong>&nbsp;<span style="border-bottom:1.5px solid #555;display:inline-block;min-width:300px;padding-bottom:1px;">La bicicleta recorre <strong>40 km por litro</strong> de combustible.</span>
+    </div>
+  </div>
+
+  <!-- ── Problema 2 ── -->
+  <div style="border-bottom:1.5px solid #c8d8e8;padding:18px 24px 20px;background:#f7f9fc;">
+    <p style="font-size:.93rem;line-height:1.7;margin-bottom:14px;">
+      <strong>2.</strong> Al <strong>triple de 9</strong> se le resta el <strong>doble de 4</strong> y luego se le suma la <strong>mitad de 20</strong>.<br>
+      ¿Qué resultado se obtiene?
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div style="background:#e8f4fd;border-radius:10px;padding:11px 13px;border-top:3px solid #2980b9;">
+        <div style="font-size:.7rem;font-weight:800;color:#2980b9;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">① Datos</div>
+        <div style="font-size:.84rem;line-height:1.65;">Triple de 9: $27$<br>Doble de 4: $8$<br>Mitad de 20: $10$</div>
+      </div>
+      <div style="background:#fef9e7;border-radius:10px;padding:11px 13px;border-top:3px solid #e67e22;">
+        <div style="font-size:.7rem;font-weight:800;color:#e67e22;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">② Estrategia</div>
+        <div style="font-size:.84rem;line-height:1.65;">$3\times9 - 2\times4 + 20\div2$<br>Primero × y ÷, luego + y −</div>
+      </div>
+      <div style="background:#f4f0fb;border-radius:10px;padding:11px 13px;border-top:3px solid #8e44ad;">
+        <div style="font-size:.7rem;font-weight:800;color:#8e44ad;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">③ Desarrollo</div>
+        <div class="cascada-wrap" style="background:transparent;border:none;padding:0;margin:0;">
+          <div class="cascada-svg-col">
+            <svg width="108" height="118" viewBox="0 0 108 118">
+              <text class="nt" x="1" y="14" font-size="9.5">3×9 − 2×4 + 20÷2</text>
+              <line class="flecha-abajo" x1="52" y1="20" x2="52" y2="34"/><polyline class="flecha-abajo" points="46,28 52,34 58,28"/>
+              <text class="nt" x="1" y="50" font-size="10">27 − 8 + 10</text>
+              <line class="flecha-abajo" x1="42" y1="56" x2="42" y2="70"/><polyline class="flecha-abajo" points="36,64 42,70 48,64"/>
+              <text class="nt" x="1" y="86" font-size="10">19 + 10</text>
+              <line class="flecha-abajo" x1="30" y1="92" x2="30" y2="102"/><polyline class="flecha-abajo" points="24,96 30,102 36,96"/>
+              <rect x="2" y="104" width="54" height="18" rx="5" fill="#27ae60"/>
+              <text x="29" y="118" text-anchor="middle" font-size="12" font-weight="800" fill="white" font-family="Fira Mono,monospace">29</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div style="background:#eafaf1;border-radius:10px;padding:11px 13px;border-top:3px solid #27ae60;">
+        <div style="font-size:.7rem;font-weight:800;color:#27ae60;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">④ Respuesta</div>
+        <div style="font-size:.84rem;line-height:1.65;">El resultado es <strong>29</strong>.</div>
+      </div>
+    </div>
+    <div style="font-size:.88rem;border-top:1px solid #d0e4f7;padding-top:8px;">
+      <strong>Respuesta:</strong>&nbsp;<span style="border-bottom:1.5px solid #555;display:inline-block;min-width:300px;padding-bottom:1px;">El resultado obtenido es <strong>29</strong>.</span>
+    </div>
+  </div>
+
+  <!-- ── Problema 3 ── -->
+  <div style="border-bottom:1.5px solid #c8d8e8;padding:18px 24px 20px;background:#f7f9fc;">
+    <p style="font-size:.93rem;line-height:1.7;margin-bottom:14px;">
+      <strong>3.</strong> Una caja contiene <strong>40 chocolates</strong> y pesa <strong>1.200 gramos</strong> en total.<br>
+      Si cada chocolate pesa <strong>25 gramos</strong>, ¿cuánto pesa la caja vacía?
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div style="background:#e8f4fd;border-radius:10px;padding:11px 13px;border-top:3px solid #2980b9;">
+        <div style="font-size:.7rem;font-weight:800;color:#2980b9;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">① Datos</div>
+        <div style="font-size:.84rem;line-height:1.65;">Chocolates: $40$<br>Peso total: $1.200$ g<br>c/choc.: $25$ g</div>
+      </div>
+      <div style="background:#fef9e7;border-radius:10px;padding:11px 13px;border-top:3px solid #e67e22;">
+        <div style="font-size:.7rem;font-weight:800;color:#e67e22;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">② Estrategia</div>
+        <div style="font-size:.84rem;line-height:1.65;">Peso caja $=$ total $-$ chocs<br>$1200 - 40\times25$</div>
+      </div>
+      <div style="background:#f4f0fb;border-radius:10px;padding:11px 13px;border-top:3px solid #8e44ad;">
+        <div style="font-size:.7rem;font-weight:800;color:#8e44ad;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">③ Desarrollo</div>
+        <div class="cascada-wrap" style="background:transparent;border:none;padding:0;margin:0;">
+          <div class="cascada-svg-col">
+            <svg width="108" height="88" viewBox="0 0 108 88">
+              <text class="nt" x="1" y="14" font-size="10">1200 − 40×25</text>
+              <line class="flecha-abajo" x1="52" y1="20" x2="52" y2="34"/><polyline class="flecha-abajo" points="46,28 52,34 58,28"/>
+              <text class="nt" x="1" y="50" font-size="10">1200 − 1000</text>
+              <line class="flecha-abajo" x1="46" y1="56" x2="46" y2="66"/><polyline class="flecha-abajo" points="40,60 46,66 52,60"/>
+              <rect x="2" y="70" width="72" height="18" rx="5" fill="#27ae60"/>
+              <text x="38" y="84" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="Fira Mono,monospace">200 g</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div style="background:#eafaf1;border-radius:10px;padding:11px 13px;border-top:3px solid #27ae60;">
+        <div style="font-size:.7rem;font-weight:800;color:#27ae60;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">④ Respuesta</div>
+        <div style="font-size:.84rem;line-height:1.65;">La caja vacía pesa <strong>200 g</strong>.</div>
+      </div>
+    </div>
+    <div style="font-size:.88rem;border-top:1px solid #d0e4f7;padding-top:8px;">
+      <strong>Respuesta:</strong>&nbsp;<span style="border-bottom:1.5px solid #555;display:inline-block;min-width:300px;padding-bottom:1px;">La caja vacía pesa <strong>200 gramos</strong>.</span>
+    </div>
+  </div>
+
+  <!-- ── Problema 4 ── -->
+  <div style="padding:18px 24px 20px;background:#f7f9fc;">
+    <p style="font-size:.93rem;line-height:1.7;margin-bottom:14px;">
+      <strong>4.</strong> Un bus recorre <strong>360 km</strong> con <strong>20 litros</strong> de combustible.<br>
+      ¿Cuántos kilómetros recorre por litro?
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div style="background:#e8f4fd;border-radius:10px;padding:11px 13px;border-top:3px solid #2980b9;">
+        <div style="font-size:.7rem;font-weight:800;color:#2980b9;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">① Datos</div>
+        <div style="font-size:.84rem;line-height:1.65;">Distancia: $360$ km<br>Combustible: $20$ L</div>
+      </div>
+      <div style="background:#fef9e7;border-radius:10px;padding:11px 13px;border-top:3px solid #e67e22;">
+        <div style="font-size:.7rem;font-weight:800;color:#e67e22;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">② Estrategia</div>
+        <div style="font-size:.84rem;line-height:1.65;">Rendimiento $=$ distancia $\div$ litros<br>$360\div20$</div>
+      </div>
+      <div style="background:#f4f0fb;border-radius:10px;padding:11px 13px;border-top:3px solid #8e44ad;">
+        <div style="font-size:.7rem;font-weight:800;color:#8e44ad;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">③ Desarrollo</div>
+        <div class="cascada-wrap" style="background:transparent;border:none;padding:0;margin:0;">
+          <div class="cascada-svg-col">
+            <svg width="108" height="66" viewBox="0 0 108 66">
+              <text class="nt" x="1" y="14" font-size="10">360 ÷ 20</text>
+              <line class="flecha-abajo" x1="38" y1="20" x2="38" y2="34"/><polyline class="flecha-abajo" points="32,28 38,34 44,28"/>
+              <rect x="2" y="38" width="68" height="18" rx="5" fill="#27ae60"/>
+              <text x="36" y="52" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="Fira Mono,monospace">18 km/L</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div style="background:#eafaf1;border-radius:10px;padding:11px 13px;border-top:3px solid #27ae60;">
+        <div style="font-size:.7rem;font-weight:800;color:#27ae60;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">④ Respuesta</div>
+        <div style="font-size:.84rem;line-height:1.65;">El bus rinde <strong>18 km</strong> por litro.</div>
+      </div>
+    </div>
+    <div style="font-size:.88rem;border-top:1px solid #d0e4f7;padding-top:8px;">
+      <strong>Respuesta:</strong>&nbsp;<span style="border-bottom:1.5px solid #555;display:inline-block;min-width:300px;padding-bottom:1px;">El bus recorre <strong>18 km por litro</strong> de combustible.</span>
+    </div>
+  </div>
+
+</div><!-- fin tabla sección VI -->
+
+</div><!-- fin #guia -->
+
 <script>
-// ── FONDO: NÚMEROS FLOTANTES ──
-const canvas = document.getElementById('canvas-bg');
-const ctx = canvas.getContext('2d');
-const symbols = ['π','∑','∫','√','∞','±','×','÷','≠','≤','≥','∈','∉','∀','∃','Δ','θ','α','β','φ','0','1','2','3','4','5','6','7','8','9','x','y','z','n','%','²','³'];
-const colors = ['#00e5b0','#a78bfa','#fb923c','#facc15','#60a5fa','#f472b6'];
-let particles = [];
-
-function resize() {
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-
-function initParticles() {
-  particles = [];
-  const count = Math.floor((canvas.width * canvas.height) / 14000);
-  for (let i = 0; i < count; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      sym: symbols[Math.floor(Math.random() * symbols.length)],
-      color: colors[Math.floor(Math.random() * colors.length)],
-      size: 10 + Math.random() * 18,
-      speed: 0.15 + Math.random() * 0.4,
-      drift: (Math.random() - 0.5) * 0.3,
-      opacity: 0.1 + Math.random() * 0.5
-    });
-  }
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (const p of particles) {
-    ctx.font = `${p.size}px Space Mono, monospace`;
-    ctx.fillStyle = p.color;
-    ctx.globalAlpha = p.opacity;
-    ctx.fillText(p.sym, p.x, p.y);
-    p.y -= p.speed;
-    p.x += p.drift;
-    if (p.y < -30) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
-    if (p.x < -20) p.x = canvas.width + 10;
-    if (p.x > canvas.width + 20) p.x = -10;
-  }
-  ctx.globalAlpha = 1;
-  requestAnimationFrame(animate);
-}
-
-window.addEventListener('resize', () => { resize(); initParticles(); });
-resize();
-initParticles();
-animate();
-
-// ── ACORDEÓN ──
-function toggle(card) {
-  const body = card.querySelector('.oa-body');
-  const inner = card.querySelector('.oa-body-inner');
-  const isOpen = card.classList.contains('open');
-  if (isOpen) {
-    body.style.maxHeight = '0';
-    card.classList.remove('open');
-  } else {
-    body.style.maxHeight = inner.scrollHeight + 32 + 'px';
-    card.classList.add('open');
-  }
-  updateCount();
-}
-
-let allOpen = false;
-function toggleAll() {
-  allOpen = !allOpen;
-  document.querySelectorAll('.oa-card').forEach(card => {
-    const body = card.querySelector('.oa-body');
-    const inner = card.querySelector('.oa-body-inner');
-    if (allOpen) {
-      body.style.maxHeight = inner.scrollHeight + 32 + 'px';
-      card.classList.add('open');
-    } else {
-      body.style.maxHeight = '0';
-      card.classList.remove('open');
-    }
+function exportarPDF(){
+  const btn=document.querySelector('.btn-pdf-wrap');
+  btn.style.display='none';
+  html2pdf().set({
+    margin:[10,10,10,10],
+    filename:'Guia_Operatoria_Combinada_7Basico.pdf',
+    image:{type:'jpeg',quality:0.98},
+    html2canvas:{scale:2,useCORS:true,scrollY:0},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['avoid-all','css','legacy']}
+  }).from(document.getElementById('guia')).save().then(()=>{
+    btn.style.display='flex';
   });
-  document.getElementById('btn-all').textContent = allOpen ? 'Colapsar todos' : 'Expandir todos';
-  updateCount();
-}
-
-function updateCount() {
-  const open = document.querySelectorAll('.oa-card.open').length;
-  document.getElementById('open-count').textContent = open;
 }
 </script>
 </body>
